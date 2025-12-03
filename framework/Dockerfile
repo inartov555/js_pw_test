@@ -30,4 +30,5 @@ USER pwuser
 # CMD bash -lc "xvfb-run -a -s '-screen 0 1920x1080x24' npx playwright test"
 
 # run headed inside virtual display
-CMD bash -lc "xvfb-run -a -s '-screen 0 1920x1080x24' npx playwright test --headed"
+# CMD bash -lc "xvfb-run -a -s '-screen 0 1920x1080x24' npx playwright test --headed"
+CMD bash -lc "npx playwright test --headed"

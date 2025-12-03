@@ -2,14 +2,17 @@ services:
 
   js_pw_test:
     build: { context: ., dockerfile: Dockerfile }
+    command: bash -lc "npx playwright test --headed"
     env_file: .env
     dns: [8.8.8.8, 1.1.1.1]
     environment:
       HOST_ARTIFACTS: $HOST_ARTIFACTS
+      DISPLAY: $DISPLAY
     ports: ["8000:8000"]
     volumes:
       - media_data:/app/media
       - $HOST_ARTIFACTS:$HOST_ARTIFACTS
+      - /tmp/.X11-unix:/tmp/.X11-unix
     stop_signal: SIGINT
     stop_grace_period: 5s
 
