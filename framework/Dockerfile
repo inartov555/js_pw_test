@@ -27,5 +27,7 @@ USER pwuser
 
 # Default behavior: run the tests suite (with a virtual display)
 # headless = 0
-CMD bash -lc "xvfb-run -a -s '-screen 0 1920x1080x24' npx playwright test"
-# CMD ["bash", "-lc", "pytest -q"]  # headless = 1
+# CMD bash -lc "xvfb-run -a -s '-screen 0 1920x1080x24' npx playwright test"
+
+# run headed inside virtual display
+CMD bash -lc "xvfb-run -a -s '-screen 0 1920x1080x24' npx playwright test --headed"

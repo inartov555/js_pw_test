@@ -5,8 +5,7 @@
 #          false - starting the service WITH cache (cache is cleared)
 #          default = false
 
-INI_CONFIG_FILE="${1:-pytest.ini}"
-clear_cache=${2:-false}
+clear_cache=${1:-true}
 
 set -Eeuo pipefail
 trap cleanup EXIT ERR SIGINT SIGTERM
@@ -40,7 +39,13 @@ case "$clear_cache" in
 esac
 
 echo "Starting the tests..."
-docker compose run --rm js_pw_test
+# Allow containers to use your X server (one-time / per session)
+xhost +local:docker
+docker run --rm -it \
+  -e DISPLAY=$DISPLAY \
+  -v /tmp/.X11-unix:/tmp/.X11-unix \
+  framework-js_pw_test
+# docker compose run --rm js_pw_test
 
 if [[ ! -f "$INI_CONFIG_FILE" ]]; then
   echo "ERROR: Provided path '$INI_CONFIG_FILE' for the repo does not exist"
