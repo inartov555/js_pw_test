@@ -32,11 +32,11 @@ echo "Building images..."
 case "$clear_cache" in
   true)
     echo "Cache will be cleared when starting the service"
-    # docker compose build tests --no-cache
+    docker compose build js_pw_test --no-cache
     ;;
   *)
     echo "Cache will be preserved when starting the service"
-    # docker compose build tests
+    docker compose build js_pw_test
 esac
 
 echo "Starting the tests..."

@@ -1,9 +1,19 @@
-FROM mcr.microsoft.com/playwright/python:v1.55.0-jammy
+FROM mcr.microsoft.com/playwright:v1.57.0-jammy
 
 # Copy the tests
 COPY . /tests
 
 WORKDIR /tests
+
+# Install Node dependencies first for better caching
+COPY package.json package-lock.json* ./
+RUN npm ci
+
+# Copy the rest of the project
+COPY . .
+
+# Install Playwright browsers & system deps
+RUN npx playwright install --with-deps
 
 # Ensure Xvfb is available for headed runs under a virtual display
 USER root
