@@ -49,14 +49,8 @@ echo "Starting the tests..."
 # docker compose run --rm js_pw_test
 
 npm install
+npx playwright install
 npx playwright test --headed
-
-if [[ ! -f "$INI_CONFIG_FILE" ]]; then
-  echo "ERROR: Provided path '$INI_CONFIG_FILE' for the repo does not exist"
-  exit 1
-else
-  echo "Using $INI_CONFIG_FILE ini config file"
-fi
 
 #
 #
