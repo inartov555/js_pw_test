@@ -1,7 +1,6 @@
-
 FROM mcr.microsoft.com/playwright/python:v1.55.0-jammy
 
-# Copy the app
+# Copy the tests
 COPY . /tests
 
 WORKDIR /tests
