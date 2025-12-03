@@ -40,7 +40,7 @@ case "$clear_cache" in
 esac
 
 # echo "Starting the tests..."
-# docker compose run --rm tests
+docker compose run --rm tests
 
 if [[ ! -f "$INI_CONFIG_FILE" ]]; then
   echo "ERROR: Provided path '$INI_CONFIG_FILE' for the repo does not exist"
@@ -48,9 +48,6 @@ if [[ ! -f "$INI_CONFIG_FILE" ]]; then
 else
   echo "Using $INI_CONFIG_FILE ini config file"
 fi
-
-# python3 -m pytest -v --tb=short -s --reruns 2 --reruns-delay 2 --ini-config "$INI_CONFIG_FILE" --html=$HOST_ARTIFACTS/test_report_$(date +%Y-%m-%d_%H-%M-%S).html
-python3 -m pytest -v --tb=short -k test_admin_can_open_change_password_for_user -s -c "$INI_CONFIG_FILE" --html=$HOST_ARTIFACTS/test_report_$(date +%Y-%m-%d_%H-%M-%S).html
 
 #
 #
