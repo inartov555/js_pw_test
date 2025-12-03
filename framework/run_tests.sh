@@ -39,7 +39,7 @@ case "$clear_cache" in
     # docker compose build tests
 esac
 
-# echo "Starting the tests..."
+echo "Starting the tests..."
 docker compose run --rm js_pw_test
 
 if [[ ! -f "$INI_CONFIG_FILE" ]]; then
