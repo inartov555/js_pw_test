@@ -1,15 +1,19 @@
 FROM mcr.microsoft.com/playwright:v1.57.0-jammy
 
-# Copying the package.json
-COPY package.json package-lock.json
-
-# Copy the tests
-COPY . /tests
+# Copying package files first for caching
+COPY package*.json ./
 
 WORKDIR /tests
 
 # Install Node dependencies first for better caching
-RUN npm ci
+RUN if [ -f package-lock.json ]; then \
+      npm ci; \
+    else \
+      npm install; \
+    fi
+
+# Copy the tests
+COPY . .
 
 # Install Playwright browsers & system deps
 RUN npx playwright install --with-deps
