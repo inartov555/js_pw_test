@@ -5,7 +5,9 @@
   "scripts": {
     "test": "playwright test",
     "test:headed": "playwright test --headed",
-    "test:ui": "playwright test --ui"
+    "test:ui": "playwright test --ui",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js"
   },
   "devDependencies": {
     "@playwright/test": "^1.57.0",
