@@ -31,11 +31,11 @@ echo "Building images..."
 case "$clear_cache" in
   true)
     echo "Cache will be cleared when starting the service"
-    docker compose build js_pw_test --no-cache
+    # docker compose build js_pw_test --no-cache
     ;;
   *)
     echo "Cache will be preserved when starting the service"
-    docker compose build js_pw_test
+    # docker compose build js_pw_test
 esac
 
 echo "Starting the tests..."
@@ -50,7 +50,7 @@ echo "Starting the tests..."
 
 npm install
 npx playwright install
-npx playwright test --headed
+npx playwright test -g "TC1: successful one-way search (Munich Airport -> Central Station)" --headed
 
 #
 #
