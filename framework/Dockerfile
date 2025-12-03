@@ -1,12 +1,14 @@
 FROM mcr.microsoft.com/playwright:v1.57.0-jammy
 
+# Copying the package.json
+COPY package.json package-lock.json
+
 # Copy the tests
 COPY . /tests
 
 WORKDIR /tests
 
 # Install Node dependencies first for better caching
-COPY package.json package-lock.json ./tests
 RUN npm ci
 
 # Install Playwright browsers & system deps
