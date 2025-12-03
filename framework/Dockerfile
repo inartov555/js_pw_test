@@ -26,9 +26,4 @@ RUN chown -R pwuser:pwuser /tests
 USER pwuser
 
 # Default behavior: run the tests suite (with a virtual display)
-# headless = 0
 # CMD bash -lc "xvfb-run -a -s '-screen 0 1920x1080x24' npx playwright test"
-
-# run headed inside virtual display
-# CMD bash -lc "xvfb-run -a -s '-screen 0 1920x1080x24' npx playwright test --headed"
-CMD bash -lc "npx playwright test --headed"

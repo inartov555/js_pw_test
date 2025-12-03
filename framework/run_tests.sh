@@ -48,6 +48,7 @@ echo "Starting the tests..."
 
 # docker compose run --rm js_pw_test
 
+npm install
 npx playwright test --headed
 
 if [[ ! -f "$INI_CONFIG_FILE" ]]; then
