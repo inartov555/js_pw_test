@@ -40,7 +40,7 @@ case "$clear_cache" in
 esac
 
 # echo "Starting the tests..."
-docker compose run --rm tests
+docker compose run --rm js_pw_test
 
 if [[ ! -f "$INI_CONFIG_FILE" ]]; then
   echo "ERROR: Provided path '$INI_CONFIG_FILE' for the repo does not exist"
