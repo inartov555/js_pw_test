@@ -6,11 +6,8 @@ COPY . /tests
 WORKDIR /tests
 
 # Install Node dependencies first for better caching
-COPY package.json package-lock.json* ./
+COPY package.json package-lock.json ./tests
 RUN npm ci
-
-# Copy the rest of the project
-COPY . .
 
 # Install Playwright browsers & system deps
 RUN npx playwright install --with-deps
