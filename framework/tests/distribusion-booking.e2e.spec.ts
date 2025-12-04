@@ -22,14 +22,9 @@ async function openBooking(page: Page) {
 test('TC1: successful one-way search Paris Beauvais Airport -> Paris La Villette', async ({ page }) => {
   const searchPage = await openBooking(page);
 
-  await searchPage.fromInput.fill('Paris Beauvais Airport');
-  await searchPage.selectFirstAvailableOptionDepDest('Paris Beauvais Airport');
-  await searchPage.toInput.fill('Paris La Villette');
-  await searchPage.selectFirstAvailableOptionDepDest('Paris La Villette');
-
-  await searchPage.departureDateInput.click();
-  await searchPage.allDayNumbers.nth(1).click();
-
+  await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
+  await searchPage.typeToFromPoint('Paris La Villette', searchPage.toInput);
+  await searchPage.selectDate();
   await searchPage.searchButton.click();
 
   const resultsPage = new ResultsPage(page);
@@ -44,13 +39,11 @@ test('TC1: successful one-way search Paris Beauvais Airport -> Paris La Villette
 test('TC4: search with multiple passengers', async ({ page }) => {
   const searchPage = await openBooking(page);
 
-  await searchPage.fromInput.fill('Paris Beauvais Airport');
-  await searchPage.toInput.fill('Paris La Villette');
-  const date = formatDateOffset(10);
-  await searchPage.departureDateInput.fill(date);
+  await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
+  await searchPage.typeToFromPoint('Paris La Villette', searchPage.toInput);
+  await searchPage.selectDate(10);
+  await searchPage.searchButton.click();
 
-  
-  // Open passenger selector and increase to 3 passengers (if such controls exist)
   const toggleCount = await searchPage.passengersToggle.count();
   if (toggleCount > 0) {
     await searchPage.passengersToggle.click();
@@ -61,7 +54,6 @@ test('TC4: search with multiple passengers', async ({ page }) => {
       await plusButton.click();
     }
   }
-
 
   await searchPage.searchButton.click();
 
@@ -101,7 +93,6 @@ test('TC7: past dates cannot be selected', async ({ page }) => {
 
   await searchPage.departureDateInput.click();
 
-  // Try to select yesterday; if the control supports it, it should be disabled.
   const yesterday = formatDateOffset(-1);
   const dayButton = page.getByRole('button', { name: new RegExp(yesterday.split('-')[2]) });
 
@@ -117,16 +108,14 @@ test('TC7: past dates cannot be selected', async ({ page }) => {
 test('TC8: search one year in the future', async ({ page }) => {
   const searchPage = await openBooking(page);
 
-  await searchPage.fromInput.fill('Paris Beauvais Airport');
-  await searchPage.toInput.fill('Paris La Villette');
-  const date = formatDateOffset(365);
-  await searchPage.departureDateInput.fill(date);
+  await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
+  await searchPage.typeToFromPoint('Paris La Villette', searchPage.toInput);
+  await searchPage.selectDate(10);
   await searchPage.searchButton.click();
 
   const resultsPage = new ResultsPage(page);
   await resultsPage.waitForResults();
 
-  // Depending on data, there may be zero or more results – we mostly assert no hard error.
   await expect(resultsPage.resultsContainer).toBeVisible();
 });
 
@@ -135,12 +124,11 @@ test('TC8: search one year in the future', async ({ page }) => {
  */
 test('TC9-11: cannot search with missing origin/destination', async ({ page }) => {
   const searchPage = await openBooking(page);
-  const date = formatDateOffset(7);
 
-  // Case: blank origin
+  // Case: blank departure (From)
   await searchPage.fromInput.fill('');
-  await searchPage.toInput.fill('Paris Beauvais Airport');
-  await searchPage.departureDateInput.fill(date);
+  await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.toInput);
+  await searchPage.selectDate();
   await searchPage.searchButton.click();
 
   let validation = page.getByText(/origin is required|select an origin/i);
@@ -149,12 +137,12 @@ test('TC9-11: cannot search with missing origin/destination', async ({ page }) =
     await expect(validation.first()).toBeVisible();
   }
 
-  // Case: blank destination
+  // Case: blank destination (To)
   await page.reload();
   await searchPage.acceptCookiesIfVisible();
-  await searchPage.fromInput.fill('Paris Beauvais Airport');
+  await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
   await searchPage.toInput.fill('');
-  await searchPage.departureDateInput.fill(date);
+  await searchPage.selectDate();
   await searchPage.searchButton.click();
 
   validation = page.getByText(/destination is required|select a destination/i);
@@ -163,12 +151,10 @@ test('TC9-11: cannot search with missing origin/destination', async ({ page }) =
     await expect(validation.first()).toBeVisible();
   }
 
-  // Case: both blank
+  // Case: both blank From and To
   await page.reload();
   await searchPage.acceptCookiesIfVisible();
-  await searchPage.fromInput.fill('');
-  await searchPage.toInput.fill('');
-  await searchPage.departureDateInput.fill(date);
+  await searchPage.selectDate();
   await searchPage.searchButton.click();
 
   validation = page.getByText(/origin and destination required|please select origin and destination/i);
@@ -184,10 +170,9 @@ test('TC9-11: cannot search with missing origin/destination', async ({ page }) =
 test('TC12: same origin and destination shows validation', async ({ page }) => {
   const searchPage = await openBooking(page);
 
-  await searchPage.fromInput.fill('Paris Beauvais Airport');
-  await searchPage.toInput.fill('Paris La Villette');
-  const date = formatDateOffset(7);
-  await searchPage.departureDateInput.fill(date);
+  await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
+  await searchPage.typeToFromPoint('Paris La Villette', searchPage.toInput);
+  await searchPage.selectDate(7);
   await searchPage.searchButton.click();
 
   const validation = page.getByText(/origin and destination cannot be the same|different locations/i);
@@ -205,8 +190,7 @@ test('TC14: no connections route shows friendly message', async ({ page }) => {
 
   await searchPage.fromInput.fill('Nowhere City');
   await searchPage.toInput.fill('Nowhere Village');
-  const date = formatDateOffset(30);
-  await searchPage.departureDateInput.fill(date);
+  await searchPage.selectDate();
   await searchPage.searchButton.click();
 
   const resultsPage = new ResultsPage(page);
@@ -225,10 +209,9 @@ test('TC14: no connections route shows friendly message', async ({ page }) => {
 test('TC17: result card shows basic trip info', async ({ page }) => {
   const searchPage = await openBooking(page);
 
-  await searchPage.fromInput.fill('Paris Beauvais Airport');
-  await searchPage.toInput.fill('Paris La Villette');
-  const date = formatDateOffset(7);
-  await searchPage.departureDateInput.fill(date);
+  await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
+  await searchPage.typeToFromPoint('Paris La Villette', searchPage.toInput);
+  await searchPage.selectDate(7);
   await searchPage.searchButton.click();
 
   const resultsPage = new ResultsPage(page);
@@ -247,9 +230,9 @@ test('TC17: result card shows basic trip info', async ({ page }) => {
 test('TC21: modify search from results page', async ({ page }) => {
   const searchPage = await openBooking(page);
 
-  await searchPage.fromInput.fill('Paris Beauvais Airport');
-  await searchPage.toInput.fill('Paris La Villette');
-  await searchPage.departureDateInput.fill(formatDateOffset(7));
+  await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
+  await searchPage.typeToFromPoint('Paris La Villette', searchPage.toInput);
+  await searchPage.selectDate(7);
   await searchPage.searchButton.click();
 
   const resultsPage = new ResultsPage(page);
@@ -277,9 +260,9 @@ test('TC21: modify search from results page', async ({ page }) => {
 test('TC23/26: select trip and fill passenger details (no payment)', async ({ page }) => {
   const searchPage = await openBooking(page);
 
-  await searchPage.fromInput.fill('Paris Beauvais Airport');
-  await searchPage.toInput.fill('Paris La Villette');
-  await searchPage.departureDateInput.fill(formatDateOffset(7));
+  await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
+  await searchPage.typeToFromPoint('Paris La Villette', searchPage.toInput);
+  await searchPage.selectDate(7);
   await searchPage.searchButton.click();
 
   const resultsPage = new ResultsPage(page);
@@ -316,9 +299,9 @@ test('TC23/26: select trip and fill passenger details (no payment)', async ({ pa
 test('TC27: cannot continue with missing mandatory passenger fields', async ({ page }) => {
   const searchPage = await openBooking(page);
 
-  await searchPage.fromInput.fill('Paris Beauvais Airport');
-  await searchPage.toInput.fill('Paris La Villette');
-  await searchPage.departureDateInput.fill(formatDateOffset(7));
+  await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
+  await searchPage.typeToFromPoint('Paris La Villette', searchPage.toInput);
+  await searchPage.selectDate(7);
   await searchPage.searchButton.click();
 
   const resultsPage = new ResultsPage(page);
@@ -344,9 +327,9 @@ test('TC27: cannot continue with missing mandatory passenger fields', async ({ p
 test('TC28: invalid email is rejected', async ({ page }) => {
   const searchPage = await openBooking(page);
 
-  await searchPage.fromInput.fill('Paris Beauvais Airport');
-  await searchPage.toInput.fill('Paris La Villette');
-  await searchPage.departureDateInput.fill(formatDateOffset(7));
+  await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
+  await searchPage.typeToFromPoint('Paris La Villette', searchPage.toInput);
+  await searchPage.selectDate(7);
   await searchPage.searchButton.click();
 
   const resultsPage = new ResultsPage(page);

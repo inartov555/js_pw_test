@@ -19,6 +19,8 @@ export class SearchPage extends BasePage {
 
     this.fromInput = page.getByLabel(/from/i);
     this.toInput = page.getByLabel(/to/i);
+    // Tip text after typing departure / destination point
+    this.anOption = page.locator('.ui-autocomplete__list.ui-autocomplete__list--opened');
     this.departureDateInput = page.locator('div.ui-date-picker');
     // These vars are related to calendars
     const calendars = page.locator('.ui-calendar__tiles button.tile:not(.tile--disabled)');
@@ -78,11 +80,31 @@ export class SearchPage extends BasePage {
   }
 
   /*
+   * Type departure / destination point
+   * Args:
+   *    - text (String): text to type
+   *    - toFrom (Locator): To or From field locator
+   */
+  async typeToFromPoint(text: String, toFromLocator: Locator) {
+    await toFromLocator.fill(text);
+    await this.selectFirstAvailableOptionDepDest(text);
+  }
+
+  /*
+   * Select date, tomorrow's date by default
+   * Args:
+   *    - dayInt (Integer): 0 = Today, 1 = Tomorrow, etc.
+   */
+  async selectDate(dayInt: Integer = 1) {
+    await this.departureDateInput.click();
+    await this.allDayNumbers.nth(dayInt).click(); // tomorrow's date
+  }
+
+  /*
    * The tip text to select after typing departure or destination
    */
   async selectFirstAvailableOptionDepDest(text: String) {
-    const anOption = this.page.locator('.ui-autocomplete__list.ui-autocomplete__list--opened');
-    anOption.first().waitFor({ state: 'visible', timeout: 10000 });
-    await anOption.getByText(text, { exact: false }).click();
+    await this.anOption.first().waitFor({ state: 'visible', timeout: 10000 });
+    await this.anOption.getByText(text, { exact: false }).click();
   }
 }
