@@ -25,12 +25,8 @@ test('TC1: successful one-way search Paris Beauvais Airport -> Paris La Villette
   await searchPage.fromInput.fill('Paris Beauvais Airport');
   await searchPage.toInput.fill('Paris La Villette');
 
-  // const date = formatDateOffset(7);
-  // await searchPage.departureDateInput.fill(date);
   await searchPage.departureDateInput.click();
   await searchPage.allDayNumbers.nth(1).click();
-  await page.waitForTimeout(5000);
-  throw Error("NCIMM")
 
   await searchPage.searchButton.click();
 

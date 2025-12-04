@@ -20,7 +20,7 @@ export class SearchPage extends BasePage {
     this.fromInput = page.getByLabel(/from/i);
     this.toInput = page.getByLabel(/to/i);
     this.departureDateInput = page.locator('div.ui-date-picker');
-    // These vars are related to calendars after clicking this.departureDateInput
+    // These vars are related to calendars
     const calendars = page.locator('.ui-calendar__tiles button.tile:not(.tile--disabled)');
     this.currentMonthDayNumbers = calendars.nth(0).locator('.tile__day');
     this.nextMonthDayNumbers = calendars.nth(1).locator('.tile__day');
@@ -52,13 +52,10 @@ export class SearchPage extends BasePage {
     await this.toInput.fill(to);
 
     const dateString = formatDateOffset(daysFromToday);
-    // await this.departureDateInput.fill(dateString);
     await this.departureDateInput.click();
-    throw Error("Intentional debug error")
 
     if (passengers !== 1) {
       await this.passengersToggle.click();
-      // This assumes +/- controls exist – tweak to match the actual DOM
       const plusButton = this.page.getByRole('button', { name: /\+/ });
       for (let i = 1; i < passengers; i++) {
         await plusButton.click();

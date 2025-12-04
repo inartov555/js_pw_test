@@ -13,7 +13,6 @@ export abstract class BasePage {
 
   async goto(path: string = '/', confirmCookies: boolean = true) {
     await this.page.goto(path, { waitUntil: 'domcontentloaded' });
-    // wait for all "key" elements to be visible
     await Promise.all(
       locators.map((loc) =>
         loc.first().waitFor({ state: 'visible', timeout: 10000 })
