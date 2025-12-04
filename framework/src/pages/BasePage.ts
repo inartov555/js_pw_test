@@ -11,13 +11,8 @@ export abstract class BasePage {
     this.page = page;
   }
 
-  async goto(path: string = '/', confirmCookies: boolean = true, locators: Locator[]) {
+  async goto(path: string = '/', confirmCookies: boolean = true) {
     await this.page.goto(path, { waitUntil: 'domcontentloaded' });
-    await Promise.all(
-      locators.map((loc) =>
-        loc.first().waitFor({ state: 'visible', timeout: 10000 })
-      )
-    );
   }
 
   async acceptCookiesIfVisible() {

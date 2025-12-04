@@ -7,7 +7,11 @@ import { BasePage } from './BasePage';
 export class SearchPage extends BasePage {
   readonly fromInput: Locator;
   readonly toInput: Locator;
+  readonly anOption: Locator;
   readonly departureDateInput: Locator;
+  readonly currentMonthDayNumbers: Locator;
+  readonly nextMonthDayNumbers: Locator;
+  readonly allDayNumbers: Locator;
   readonly searchButton: Locator;
   readonly passengersToggle: Locator;
 
@@ -45,7 +49,7 @@ export class SearchPage extends BasePage {
    *    - text (String): text to type
    *    - toFrom (Locator): To or From field locator
    */
-  async typeToFromPoint(text: String, toFromLocator: Locator) {
+  async typeToFromPoint(text: string, toFromLocator: Locator) {
     await toFromLocator.fill(text);
     await this.selectFirstAvailableOptionDepDest(text);
   }
@@ -55,7 +59,7 @@ export class SearchPage extends BasePage {
    * Args:
    *    - daysFromToday (Integer): 0 = Today, 1 = Tomorrow, etc.
    */
-  async selectDate(daysFromToday: Integer = 1) {
+  async selectDate(daysFromToday: number = 1) {
     await this.departureDateInput.click();
     await this.allDayNumbers.nth(daysFromToday).click();
   }
@@ -63,7 +67,7 @@ export class SearchPage extends BasePage {
   /*
    * The tip text to select after typing departure or destination
    */
-  async selectFirstAvailableOptionDepDest(text: String) {
+  async selectFirstAvailableOptionDepDest(text: string) {
     await this.anOption.first().waitFor({ state: 'visible', timeout: 10000 });
     await this.anOption.getByText(text, { exact: false }).click();
   }
