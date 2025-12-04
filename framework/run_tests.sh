@@ -47,7 +47,7 @@ echo "Starting the tests..."
 npm install
 npx playwright install
 # npx playwright test -g "TC1: successful one-way search Munich Airport -> Central Station" --headed --reporter=list,html
-npx playwright test -g "TC1: successful one-way search Paris Beauvais Airport -> Paris La Villette" --headed --reporter=list
+npx playwright test -g "TC1: successful one-way search" --headed --reporter=list
 
 #
 #

@@ -13,7 +13,6 @@ export class ResultsPage extends BasePage {
   constructor(page: Page) {
     super(page);
 
-    // Prefer `data-testid` if available, otherwise fallback to semantic roles.
     this.resultsContainer = page.locator('.journey-list__cards[data-tag="journey-list-cards"]');
     this.resultCards = this.resultsContainer.locator('[data-tag="connection-card"]');
     this.timeFilterMorning = page.getByRole('button', { name: /morning|early/i });

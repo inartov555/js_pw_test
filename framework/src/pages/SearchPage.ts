@@ -57,7 +57,7 @@ export class SearchPage extends BasePage {
    */
   async selectDate(daysFromToday: Integer = 1) {
     await this.departureDateInput.click();
-    await this.allDayNumbers.nth(dayInt).click();
+    await this.allDayNumbers.nth(daysFromToday).click();
   }
 
   /*

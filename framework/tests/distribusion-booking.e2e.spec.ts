@@ -18,7 +18,7 @@ async function openBooking(page: Page) {
 /**
  * ID 1 – Successful one-way search with valid origin, destination and date
  */
-test('TC1: successful one-way search Paris Beauvais Airport -> Paris La Villette', async ({ page }) => {
+test('TC1: successful one-way search', async ({ page }) => {
   const searchPage = await openBooking(page);
 
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
