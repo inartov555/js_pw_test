@@ -23,9 +23,9 @@ test('TC1: successful one-way search Paris Beauvais Airport -> Paris La Villette
   const searchPage = await openBooking(page);
 
   await searchPage.fromInput.fill('Paris Beauvais Airport');
-  await searchPage.selectFirstAvailableOptionDepDest();
+  await searchPage.selectFirstAvailableOptionDepDest('Paris Beauvais Airport');
   await searchPage.toInput.fill('Paris La Villette');
-  await searchPage.selectFirstAvailableOptionDepDest();
+  await searchPage.selectFirstAvailableOptionDepDest('Paris La Villette');
 
   await searchPage.departureDateInput.click();
   await searchPage.allDayNumbers.nth(1).click();

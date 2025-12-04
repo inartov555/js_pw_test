@@ -14,8 +14,8 @@ export class ResultsPage extends BasePage {
     super(page);
 
     // Prefer `data-testid` if available, otherwise fallback to semantic roles.
-    this.resultsContainer = page.locator('[data-testid="results-list"], [data-test="results-list"]');
-    this.resultCards = page.locator('[data-testid="result-card"], [data-test="result-card"]');
+    this.resultsContainer = page.locator('.journey-list__cards[data-tag="journey-list-cards"]');
+    this.resultCards = this.resultsContainer.locator('[data-tag="connection-card"]');
     this.timeFilterMorning = page.getByRole('button', { name: /morning|early/i });
     this.sortByCheapest = page.getByRole('button', { name: /cheapest|lowest price/i });
   }
