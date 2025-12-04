@@ -71,9 +71,9 @@ test('TC4: search with multiple passengers', async ({ page }) => {
 });
 
 /**
- * ID 6 – Autocomplete suggestions for origin field
+ * ID 6 – Autoc-omplete suggestions for origin field
  */
-test('TC6: origin field shows autocomplete suggestions', async ({ page }) => {
+test('TC6: origin field shows auto-complete suggestions', async ({ page }) => {
   const searchPage = await openBooking(page);
 
   await searchPage.fromInput.fill('Mun');
@@ -86,9 +86,9 @@ test('TC6: origin field shows autocomplete suggestions', async ({ page }) => {
 });
 
 /**
- * ID 9/10/11 – Blank origin/destination validations
+ * ID 9/10/11 – Blank From/To validations
  */
-test('TC9-11: cannot search with missing origin/destination', async ({ page }) => {
+test('TC9-11: cannot search with missing From/To', async ({ page }) => {
   const searchPage = await openBooking(page);
 
   // Case: blank departure (From)
@@ -97,7 +97,7 @@ test('TC9-11: cannot search with missing origin/destination', async ({ page }) =
   await searchPage.selectDate();
   await searchPage.searchButton.click();
 
-  let validation = page.getByText(/origin is required|select an origin/i);
+  let validation = page.getByText(/From is required|select an From/i);
   let count = await validation.count();
   if (count > 0) {
     await expect(validation.first()).toBeVisible();
@@ -111,7 +111,7 @@ test('TC9-11: cannot search with missing origin/destination', async ({ page }) =
   await searchPage.selectDate();
   await searchPage.searchButton.click();
 
-  validation = page.getByText(/destination is required|select a destination/i);
+  validation = page.getByText(/To is required|select a To/i);
   count = await validation.count();
   if (count > 0) {
     await expect(validation.first()).toBeVisible();
@@ -123,7 +123,7 @@ test('TC9-11: cannot search with missing origin/destination', async ({ page }) =
   await searchPage.selectDate();
   await searchPage.searchButton.click();
 
-  validation = page.getByText(/origin and destination required|please select origin and destination/i);
+  validation = page.getByText(/From and To required|please select From and To/i);
   count = await validation.count();
   if (count > 0) {
     await expect(validation.first()).toBeVisible();
@@ -133,7 +133,7 @@ test('TC9-11: cannot search with missing origin/destination', async ({ page }) =
 /**
  * ID 12 – Origin and destination are the same
  */
-test('TC12: same origin and destination shows validation', async ({ page }) => {
+test('TC12: same From and To shows validation', async ({ page }) => {
   const searchPage = await openBooking(page);
 
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.toInput);
@@ -141,7 +141,7 @@ test('TC12: same origin and destination shows validation', async ({ page }) => {
   await searchPage.selectDate(7);
   await searchPage.searchButton.click();
 
-  const validation = page.getByText(/origin and destination cannot be the same|different locations/i);
+  const validation = page.getByText(/From and To cannot be the same|different locations/i);
   const count = await validation.count();
   if (count > 0) {
     await expect(validation.first()).toBeVisible();
@@ -206,7 +206,6 @@ test('TC21: modify search from results page', async ({ page }) => {
 
   const initialFirst = await resultsPage.resultCards.first().innerText();
 
-  // Modify search in-place (using same fields if they remain visible)
   const fromField = page.getByLabel(/from/i);
   const toField = page.getByLabel(/to/i);
 

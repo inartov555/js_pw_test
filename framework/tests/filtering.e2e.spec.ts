@@ -23,7 +23,5 @@ test('results can be filtered and sorted', async ({ page }) => {
 
   const afterFilterCount = await resultsPage.getResultCount();
 
-  // Depending on real behaviour, the count may shrink or stay the same.
-  // This assertion mostly protects against an empty list after interacting with filters.
   expect(afterFilterCount).toBeGreaterThan(0);
 });

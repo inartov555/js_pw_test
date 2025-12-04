@@ -93,11 +93,11 @@ export class SearchPage extends BasePage {
   /*
    * Select date, tomorrow's date by default
    * Args:
-   *    - dayInt (Integer): 0 = Today, 1 = Tomorrow, etc.
+   *    - daysFromToday (Integer): 0 = Today, 1 = Tomorrow, etc.
    */
-  async selectDate(dayInt: Integer = 1) {
+  async selectDate(daysFromToday: Integer = 1) {
     await this.departureDateInput.click();
-    await this.allDayNumbers.nth(dayInt).click(); // tomorrow's date
+    await this.allDayNumbers.nth(dayInt).click();
   }
 
   /*
