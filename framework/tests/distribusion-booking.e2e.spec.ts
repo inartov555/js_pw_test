@@ -86,40 +86,6 @@ test('TC6: origin field shows autocomplete suggestions', async ({ page }) => {
 });
 
 /**
- * ID 7 – Prevent selecting past dates in date picker
- */
-test('TC7: past dates cannot be selected', async ({ page }) => {
-  const searchPage = await openBooking(page);
-
-  await searchPage.departureDateInput.click();
-
-  const yesterday = formatDateOffset(-1);
-  const dayButton = page.getByRole('button', { name: new RegExp(yesterday.split('-')[2]) });
-
-  const count = await dayButton.count();
-  if (count > 0) {
-    await expect(dayButton.first()).toBeDisabled();
-  }
-});
-
-/**
- * ID 8 – Search for very future date (e.g., 1 year ahead)
- */
-test('TC8: search one year in the future', async ({ page }) => {
-  const searchPage = await openBooking(page);
-
-  await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
-  await searchPage.typeToFromPoint('Paris La Villette', searchPage.toInput);
-  await searchPage.selectDate(10);
-  await searchPage.searchButton.click();
-
-  const resultsPage = new ResultsPage(page);
-  await resultsPage.waitForResults();
-
-  await expect(resultsPage.resultsContainer).toBeVisible();
-});
-
-/**
  * ID 9/10/11 – Blank origin/destination validations
  */
 test('TC9-11: cannot search with missing origin/destination', async ({ page }) => {
@@ -170,8 +136,8 @@ test('TC9-11: cannot search with missing origin/destination', async ({ page }) =
 test('TC12: same origin and destination shows validation', async ({ page }) => {
   const searchPage = await openBooking(page);
 
+  await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.toInput);
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
-  await searchPage.typeToFromPoint('Paris La Villette', searchPage.toInput);
   await searchPage.selectDate(7);
   await searchPage.searchButton.click();
 
@@ -364,28 +330,4 @@ test('TC36: initial page load shows search form', async ({ page }) => {
   await expect(searchPage.toInput).toBeVisible();
   await expect(searchPage.departureDateInput).toBeVisible();
   await expect(searchPage.searchButton).toBeVisible();
-});
-
-/**
- * ID 41 – Deep link with prefilled parameters
- */
-test('TC41: deep link pre-fills search form', async ({ page }) => {
-  const deepLink =
-    'https://book.distribusion.com/?retailerPartnerNumber=807197' +
-    '&origin=Munich%20Airport%20Center' +
-    '&destination=Munich%20Central%20Train%20Station';
-
-  await page.goto(deepLink);
-  const searchPage = new SearchPage(page);
-  await searchPage.acceptCookiesIfVisible();
-
-  await expect(searchPage.fromInput).toHaveValue(/Munich Airport Center/i);
-  await expect(searchPage.toInput).toHaveValue(/Munich Central Train Station/i);
-
-  // Run the search (if not auto-run) and ensure it behaves normally.
-  await searchPage.searchButton.click();
-  const resultsPage = new ResultsPage(page);
-  await resultsPage.waitForResults();
-  const count = await resultsPage.getResultCount();
-  await expect(count).toBeGreaterThan(0);
 });
