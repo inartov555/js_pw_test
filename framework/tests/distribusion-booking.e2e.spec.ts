@@ -70,9 +70,9 @@ test('TC4: search with multiple passengers', async ({ page }) => {
 });
 
 /**
- * ID 6 – Autoc-omplete suggestions for origin field
+ * ID 5 – Auto-complete suggestions for 'From' field
  */
-test('TC6: origin field shows auto-complete suggestions', async ({ page }) => {
+test('TC5: Auto-complete suggestions for ‘From’ field', async ({ page }) => {
   const searchPage = await openBooking(page);
 
   await searchPage.fromInput.fill('Mun');
@@ -85,9 +85,9 @@ test('TC6: origin field shows auto-complete suggestions', async ({ page }) => {
 });
 
 /**
- * ID 9/10/11 – Blank From/To validations
+ * ID 8/9/10 – Blank From/To validations
  */
-test('TC9-11: cannot search with missing From/To', async ({ page }) => {
+test('TC8-10: cannot search with missing From/To', async ({ page }) => {
   const searchPage = await openBooking(page);
 
   // Case: blank departure (From)
@@ -130,9 +130,9 @@ test('TC9-11: cannot search with missing From/To', async ({ page }) => {
 });
 
 /**
- * ID 12 – Origin and destination are the same
+ * ID 11 – From and To are the same
  */
-test('TC12: same From and To shows validation', async ({ page }) => {
+test('TC11: same From and To shows validation', async ({ page }) => {
   const searchPage = await openBooking(page);
 
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.toInput);
@@ -148,9 +148,9 @@ test('TC12: same From and To shows validation', async ({ page }) => {
 });
 
 /**
- * ID 14 – Search with route that has no connections
+ * ID 13 – Search with route that has no connections
  */
-test('TC14: no connections route shows friendly message', async ({ page }) => {
+test('TC13: no connections route shows friendly message', async ({ page }) => {
   const searchPage = await openBooking(page);
 
   await searchPage.fromInput.fill('Nowhere City');
@@ -169,9 +169,9 @@ test('TC14: no connections route shows friendly message', async ({ page }) => {
 });
 
 /**
- * ID 17 – Results page shows carrier, time, price
+ * ID 16 – Results page shows carrier, time, price
  */
-test('TC17: result card shows basic trip info', async ({ page }) => {
+test('TC16: Results page shows essential trip information', async ({ page }) => {
   const searchPage = await openBooking(page);
 
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
@@ -190,9 +190,9 @@ test('TC17: result card shows basic trip info', async ({ page }) => {
 });
 
 /**
- * ID 21 – Modify search from results page
+ * ID 20 – Modify search from results page
  */
-test('TC21: modify search from results page', async ({ page }) => {
+test('TC20: Modify search criteria from results page', async ({ page }) => {
   const searchPage = await openBooking(page);
 
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
@@ -219,9 +219,9 @@ test('TC21: modify search from results page', async ({ page }) => {
 });
 
 /**
- * ID 23 & 26 – Select a trip and reach passenger details; fill passenger data
+ * ID 22 & 25 – Select a trip and reach passenger details; fill passenger data
  */
-test('TC23/26: select trip and fill passenger details (no payment)', async ({ page }) => {
+test('TC22/25: select trip and fill passenger details (no payment)', async ({ page }) => {
   const searchPage = await openBooking(page);
 
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
@@ -258,9 +258,9 @@ test('TC23/26: select trip and fill passenger details (no payment)', async ({ pa
 });
 
 /**
- * ID 27 – Mandatory passenger fields left blank
+ * ID 26 – Mandatory passenger fields left blank
  */
-test('TC27: cannot continue with missing mandatory passenger fields', async ({ page }) => {
+test('TC26: Mandatory passenger fields left blank', async ({ page }) => {
   const searchPage = await openBooking(page);
 
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
@@ -286,9 +286,9 @@ test('TC27: cannot continue with missing mandatory passenger fields', async ({ p
 });
 
 /**
- * ID 28 – Invalid email format validation
+ * ID 27 – Invalid email format validation
  */
-test('TC28: invalid email is rejected', async ({ page }) => {
+test('TC27: Invalid email format validation', async ({ page }) => {
   const searchPage = await openBooking(page);
 
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
@@ -317,9 +317,9 @@ test('TC28: invalid email is rejected', async ({ page }) => {
 });
 
 /**
- * ID 36 – Initial page load and layout on desktop
+ * ID 35 – Initial page load and layout on desktop
  */
-test('TC36: initial page load shows search form', async ({ page }) => {
+test('TC35: Initial page load and layout on desktop', async ({ page }) => {
   await page.goto(BOOKING_URL);
   const searchPage = new SearchPage(page);
   await searchPage.acceptCookiesIfVisible();
