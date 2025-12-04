@@ -19,7 +19,13 @@ export class SearchPage extends BasePage {
 
     this.fromInput = page.getByLabel(/from/i);
     this.toInput = page.getByLabel(/to/i);
-    this.departureDateInput = page.getByLabel(/departure date|outbound|date/i);
+    this.departureDateInput = page.locator('div.ui-date-picker');
+    // These vars are related to calendars after clicking this.departureDateInput
+    const calendars = page.locator('.ui-calendar__tiles button.tile:not(.tile--disabled)');
+    this.currentMonthDayNumbers = calendars.nth(0).locator('.tile__day');
+    this.nextMonthDayNumbers = calendars.nth(1).locator('.tile__day');
+    this.allDayNumbers = page.locator('.ui-date-picker-popup .ui-calendar__tiles button.tile:not([disabled]) .tile__day');
+    // End of calendars
     this.searchButton = page.getByRole('button', { name: /search/i });
     this.passengersToggle = page.getByRole('button', { name: /passengers|travellers/i });
   }
@@ -46,7 +52,9 @@ export class SearchPage extends BasePage {
     await this.toInput.fill(to);
 
     const dateString = formatDateOffset(daysFromToday);
-    await this.departureDateInput.fill(dateString);
+    // await this.departureDateInput.fill(dateString);
+    await this.departureDateInput.click();
+    throw Error("Intentional debug error")
 
     if (passengers !== 1) {
       await this.passengersToggle.click();
