@@ -19,7 +19,7 @@ async function openBooking(page: Page) {
 /**
  * ID 1 – Successful one-way search with valid origin, destination and date
  */
-test('TC1: successful one-way search (Munich Airport -> Central Station)', async ({ page }) => {
+test('TC1: successful one-way search Munich Airport -> Central Station', async ({ page }) => {
   const searchPage = await openBooking(page);
 
   await searchPage.fromInput.fill('Munich Airport Center');
