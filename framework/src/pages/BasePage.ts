@@ -12,17 +12,37 @@ export abstract class BasePage {
   }
 
   async goto(path: string = '/', confirmCookies: boolean = true) {
-    await this.page.goto(path);
-    await this.page.waitForLoadState('networkidle');
+    await this.page.goto(path, { waitUntil: 'domcontentloaded' });
+    // wait for all "key" elements to be visible
+    await Promise.all(
+      locators.map((loc) =>
+        loc.first().waitFor({ state: 'visible', timeout: 10000 })
+      )
+    );
+    // await this.page.waitForLoadState('networkidle');
     // console.log('[TEST] Starting example test');
     // this.acceptWeUseCookiesOverlay()
   }
 
   async acceptCookiesIfVisible() {
-    const buttons = this.page.getByTestId('cookies-consent-apply');
-    const count = await buttons.count();
+    const button = this.page.locator('button[data-tag="cookies-consent-apply"]');
+    /*
+    const count = await button.count();
     if (count > 0) {
-      await buttons.first().click();
+      await button.first().waitFor({ state: 'visible', timeout: 10000 });
+      await button.first().click();
+      // throw Error("Ok. Just checking.");
+    }
+    // throw Error("Ok. Just checking.");
+    */
+    try {
+      await button.first().waitFor({
+        state: 'visible',
+        timeout: 5000,
+      });
+      await button.first().click();
+    } catch {
+      // No actions to be done here
     }
   }
 

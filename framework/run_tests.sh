@@ -11,10 +11,6 @@ set -Eeuo pipefail
 trap cleanup EXIT ERR SIGINT SIGTERM
 
 cleanup() {
-  if [ -n "${VIRTUAL_ENV-}" ] && [ "$(type -t deactivate 2>/dev/null)" = "function" ]; then
-    echo "Deactivating venv..."
-    deactivate
-  fi
   if ! [[ "$ORIGINAL_PROJECT_PATH" -ef "$(pwd)" ]]; then
     echo "Returning to the original project path to be able to run the test again with new changes, if there are any"
     cd "$ORIGINAL_PROJECT_PATH"
@@ -50,7 +46,8 @@ echo "Starting the tests..."
 
 npm install
 npx playwright install
-npx playwright test -g "TC1: successful one-way search (Munich Airport -> Central Station)" --headed --reporter=list,html
+# npx playwright test -g "TC1: successful one-way search (Munich Airport -> Central Station)" --headed --reporter=list,html
+npx playwright test -g "TC1: successful one-way search (Munich Airport -> Central Station)" --headed --reporter=list
 # npx playwright test --list
 
 #

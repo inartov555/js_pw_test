@@ -13,6 +13,7 @@ async function openBooking(page: Page) {
   await page.goto(BOOKING_URL);
   const searchPage = new SearchPage(page);
   await searchPage.acceptCookiesIfVisible();
+  // throw Error("Ok. Just checking.");
   return searchPage;
 }
 
