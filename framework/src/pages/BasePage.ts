@@ -15,7 +15,7 @@ export abstract class BasePage {
     await this.page.goto(path, { waitUntil: 'domcontentloaded' });
     await Promise.all(
       locators.map((loc) =>
-        loc.first().waitFor({ state: 'visible', timeout: 10000 });
+        loc.first().waitFor({ state: 'visible', timeout: 10000 })
       )
     );
   }
