@@ -76,4 +76,13 @@ export class SearchPage extends BasePage {
     const error = this.page.getByText(/please select a destination|destination is required/i);
     await expect(error).toBeVisible();
   }
+
+  /*
+   * The tip text to select after typing departure or destination
+   */
+  async selectFirstAvailableOptionDepDest(text: String) {
+    const anOption = this.page.locator('.ui-autocomplete__list.ui-autocomplete__list--opened');
+    anOption.first().waitFor({ state: 'visible', timeout: 10000 });
+    await anOption.getByText(text, { exact: false }).click();
+  }
 }
