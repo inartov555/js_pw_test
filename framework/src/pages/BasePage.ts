@@ -19,22 +19,10 @@ export abstract class BasePage {
         loc.first().waitFor({ state: 'visible', timeout: 10000 })
       )
     );
-    // await this.page.waitForLoadState('networkidle');
-    // console.log('[TEST] Starting example test');
-    // this.acceptWeUseCookiesOverlay()
   }
 
   async acceptCookiesIfVisible() {
     const button = this.page.locator('button[data-tag="cookies-consent-apply"]');
-    /*
-    const count = await button.count();
-    if (count > 0) {
-      await button.first().waitFor({ state: 'visible', timeout: 10000 });
-      await button.first().click();
-      // throw Error("Ok. Just checking.");
-    }
-    // throw Error("Ok. Just checking.");
-    */
     try {
       await button.first().waitFor({
         state: 'visible',
@@ -43,27 +31,6 @@ export abstract class BasePage {
       await button.first().click();
     } catch {
       // No actions to be done here
-    }
-  }
-
-  async acceptWeUseCookiesOverlay() {
-    // The modal wrapper
-    const cookiesModal = this.page.locator(
-      '[data-tag="cookies-consent-modal"]'
-    );
-    // console.log("\n\n YO \n\n");
-
-    if (!(await cookiesModal.isVisible())) {
-      return;
-    }
-
-    // The “Apply” button inside the modal
-    const applyButton =
-      cookiesModal.getByRole('button', { name: /apply/i }) ||
-      this.page.getByRole('button', { name: /apply/i });
-
-    if (await applyButton.isVisible()) {
-      await applyButton.click();
     }
   }
 }

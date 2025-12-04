@@ -13,18 +13,17 @@ async function openBooking(page: Page) {
   await page.goto(BOOKING_URL);
   const searchPage = new SearchPage(page);
   await searchPage.acceptCookiesIfVisible();
-  // throw Error("Ok. Just checking.");
   return searchPage;
 }
 
 /**
  * ID 1 – Successful one-way search with valid origin, destination and date
  */
-test('TC1: successful one-way search Munich Airport -> Central Station', async ({ page }) => {
+test('TC1: successful one-way search Paris Beauvais Airport -> Paris La Villette', async ({ page }) => {
   const searchPage = await openBooking(page);
 
-  await searchPage.fromInput.fill('Munich Airport Center');
-  await searchPage.toInput.fill('Munich Central Train Station');
+  await searchPage.fromInput.fill('Paris Beauvais Airport');
+  await searchPage.toInput.fill('Paris La Villette');
 
   const date = formatDateOffset(7);
   await searchPage.departureDateInput.fill(date);
@@ -43,8 +42,8 @@ test('TC1: successful one-way search Munich Airport -> Central Station', async (
 test('TC4: search with multiple passengers', async ({ page }) => {
   const searchPage = await openBooking(page);
 
-  await searchPage.fromInput.fill('Munich Airport Center');
-  await searchPage.toInput.fill('Munich Central Train Station');
+  await searchPage.fromInput.fill('Paris Beauvais Airport');
+  await searchPage.toInput.fill('Paris La Villette');
   const date = formatDateOffset(10);
   await searchPage.departureDateInput.fill(date);
 
@@ -116,8 +115,8 @@ test('TC7: past dates cannot be selected', async ({ page }) => {
 test('TC8: search one year in the future', async ({ page }) => {
   const searchPage = await openBooking(page);
 
-  await searchPage.fromInput.fill('Munich Airport Center');
-  await searchPage.toInput.fill('Munich Central Train Station');
+  await searchPage.fromInput.fill('Paris Beauvais Airport');
+  await searchPage.toInput.fill('Paris La Villette');
   const date = formatDateOffset(365);
   await searchPage.departureDateInput.fill(date);
   await searchPage.searchButton.click();
@@ -138,7 +137,7 @@ test('TC9-11: cannot search with missing origin/destination', async ({ page }) =
 
   // Case: blank origin
   await searchPage.fromInput.fill('');
-  await searchPage.toInput.fill('Munich Central Train Station');
+  await searchPage.toInput.fill('Paris Beauvais Airport');
   await searchPage.departureDateInput.fill(date);
   await searchPage.searchButton.click();
 
@@ -151,7 +150,7 @@ test('TC9-11: cannot search with missing origin/destination', async ({ page }) =
   // Case: blank destination
   await page.reload();
   await searchPage.acceptCookiesIfVisible();
-  await searchPage.fromInput.fill('Munich Airport Center');
+  await searchPage.fromInput.fill('Paris Beauvais Airport');
   await searchPage.toInput.fill('');
   await searchPage.departureDateInput.fill(date);
   await searchPage.searchButton.click();
@@ -183,8 +182,8 @@ test('TC9-11: cannot search with missing origin/destination', async ({ page }) =
 test('TC12: same origin and destination shows validation', async ({ page }) => {
   const searchPage = await openBooking(page);
 
-  await searchPage.fromInput.fill('Munich Airport Center');
-  await searchPage.toInput.fill('Munich Airport Center');
+  await searchPage.fromInput.fill('Paris Beauvais Airport');
+  await searchPage.toInput.fill('Paris La Villette');
   const date = formatDateOffset(7);
   await searchPage.departureDateInput.fill(date);
   await searchPage.searchButton.click();
@@ -224,8 +223,8 @@ test('TC14: no connections route shows friendly message', async ({ page }) => {
 test('TC17: result card shows basic trip info', async ({ page }) => {
   const searchPage = await openBooking(page);
 
-  await searchPage.fromInput.fill('Munich Airport Center');
-  await searchPage.toInput.fill('Munich Central Train Station');
+  await searchPage.fromInput.fill('Paris Beauvais Airport');
+  await searchPage.toInput.fill('Paris La Villette');
   const date = formatDateOffset(7);
   await searchPage.departureDateInput.fill(date);
   await searchPage.searchButton.click();
@@ -246,8 +245,8 @@ test('TC17: result card shows basic trip info', async ({ page }) => {
 test('TC21: modify search from results page', async ({ page }) => {
   const searchPage = await openBooking(page);
 
-  await searchPage.fromInput.fill('Munich Airport Center');
-  await searchPage.toInput.fill('Munich Central Train Station');
+  await searchPage.fromInput.fill('Paris Beauvais Airport');
+  await searchPage.toInput.fill('Paris La Villette');
   await searchPage.departureDateInput.fill(formatDateOffset(7));
   await searchPage.searchButton.click();
 
@@ -260,8 +259,8 @@ test('TC21: modify search from results page', async ({ page }) => {
   const fromField = page.getByLabel(/from/i);
   const toField = page.getByLabel(/to/i);
 
-  await fromField.fill('Munich Central Train Station');
-  await toField.fill('Munich Airport Center');
+  await fromField.fill('Paris La Villette');
+  await toField.fill('Paris Beauvais Airport');
   await page.getByRole('button', { name: /search|update/i }).click();
 
   await resultsPage.waitForResults();
@@ -276,8 +275,8 @@ test('TC21: modify search from results page', async ({ page }) => {
 test('TC23/26: select trip and fill passenger details (no payment)', async ({ page }) => {
   const searchPage = await openBooking(page);
 
-  await searchPage.fromInput.fill('Munich Airport Center');
-  await searchPage.toInput.fill('Munich Central Train Station');
+  await searchPage.fromInput.fill('Paris Beauvais Airport');
+  await searchPage.toInput.fill('Paris La Villette');
   await searchPage.departureDateInput.fill(formatDateOffset(7));
   await searchPage.searchButton.click();
 
@@ -315,8 +314,8 @@ test('TC23/26: select trip and fill passenger details (no payment)', async ({ pa
 test('TC27: cannot continue with missing mandatory passenger fields', async ({ page }) => {
   const searchPage = await openBooking(page);
 
-  await searchPage.fromInput.fill('Munich Airport Center');
-  await searchPage.toInput.fill('Munich Central Train Station');
+  await searchPage.fromInput.fill('Paris Beauvais Airport');
+  await searchPage.toInput.fill('Paris La Villette');
   await searchPage.departureDateInput.fill(formatDateOffset(7));
   await searchPage.searchButton.click();
 
@@ -343,8 +342,8 @@ test('TC27: cannot continue with missing mandatory passenger fields', async ({ p
 test('TC28: invalid email is rejected', async ({ page }) => {
   const searchPage = await openBooking(page);
 
-  await searchPage.fromInput.fill('Munich Airport Center');
-  await searchPage.toInput.fill('Munich Central Train Station');
+  await searchPage.fromInput.fill('Paris Beauvais Airport');
+  await searchPage.toInput.fill('Paris La Villette');
   await searchPage.departureDateInput.fill(formatDateOffset(7));
   await searchPage.searchButton.click();
 
