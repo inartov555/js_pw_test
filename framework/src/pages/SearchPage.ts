@@ -1,11 +1,8 @@
 import { Locator, Page, expect } from '@playwright/test';
 import { BasePage } from './BasePage';
-import { formatDateOffset } from '../utils/date';
 
 /**
- * Page Object for the search page.
- * Assumptions about labels/roles are based on common white‑label patterns
- * and may need minor tweaks in your environment.
+ * Page Object for the Search page.
  */
 export class SearchPage extends BasePage {
   readonly fromInput: Locator;
@@ -35,43 +32,6 @@ export class SearchPage extends BasePage {
   async open() {
     await this.goto('/');
     await this.acceptCookiesIfVisible();
-  }
-
-  async searchOneWay({
-    from,
-    to,
-    daysFromToday = 7,
-    passengers = 1,
-  }: {
-    from: string;
-    to: string;
-    daysFromToday?: number;
-    passengers?: number;
-  }) {
-    await this.open();
-
-    await this.fromInput.fill(from);
-    await this.toInput.fill(to);
-
-    const dateString = formatDateOffset(daysFromToday);
-    await this.departureDateInput.click();
-
-    if (passengers !== 1) {
-      await this.passengersToggle.click();
-      const plusButton = this.page.getByRole('button', { name: /\+/ });
-      for (let i = 1; i < passengers; i++) {
-        await plusButton.click();
-      }
-    }
-
-    await this.searchButton.click();
-  }
-
-  async submitWithMissingDestination() {
-    await this.open();
-    await this.fromInput.fill('Munich');
-    await this.departureDateInput.fill(formatDateOffset(7));
-    await this.searchButton.click();
   }
 
   async expectDestinationValidationError() {

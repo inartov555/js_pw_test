@@ -3,7 +3,7 @@ import { BasePage } from './BasePage';
 
 /**
  * Page Object for the checkout page.
- * **Important:** nothing here attempts to actually pay – we explicitly avoid clicking "PAY NOW".
+ * **Important:** avoid to click Pay Now (real money will be paid)
  */
 export class CheckoutPage extends BasePage {
   readonly passengerForm: Locator;

@@ -3,7 +3,6 @@ import { test, expect, Page } from '@playwright/test';
 import { SearchPage } from '../src/pages/SearchPage';
 import { ResultsPage } from '../src/pages/ResultsPage';
 import { CheckoutPage } from '../src/pages/CheckoutPage';
-import { formatDateOffset } from '../src/utils/date';
 
 const BOOKING_URL =
   process.env.BOOKING_URL ||
