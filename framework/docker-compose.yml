@@ -11,6 +11,8 @@ services:
     ports: ["8000:8000"]
     volumes:
       - media_data:/app/media
+      - ./playwright-report:/tests/playwright-report
+      - ./test-results:/tests/test-results
       - $HOST_ARTIFACTS:$HOST_ARTIFACTS
       - $COPIED_PROJECT_PATH:$COPIED_PROJECT_PATH
       - /tmp/.X11-unix:/tmp/.X11-unix

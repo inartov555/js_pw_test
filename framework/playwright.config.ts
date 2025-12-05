@@ -4,6 +4,7 @@ const baseURL = process.env.BASE_URL || 'https://book.distribusion.com/?retailer
 
 export default defineConfig({
   testDir: './tests',
+  outputDir: 'test-results',
   timeout: 60 * 1000,
   expect: {
     timeout: 10 * 1000,

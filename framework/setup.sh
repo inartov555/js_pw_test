@@ -43,6 +43,10 @@ export ROOT_VENV="$COPIED_PROJECT_PATH"
 echo "Entering the '$COPIED_PROJECT_PATH' module"
 cd "$COPIED_PROJECT_PATH"
 
+echo "Creating test report folders..."
+mkdir -p test-results playwright-report
+chmod -R 777 test-results playwright-report
+
 echo "Copying .env file..."
 cp backend/.env.example backend/.env
 echo "Appending HOST_ARTIFACTS and COPIED_PROJECT_PATH path properties"
