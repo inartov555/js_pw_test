@@ -32,7 +32,7 @@ The tests target the Distribusion booking portal and live under the `framework/`
 
 ---
 
-### Option B – Docker + docker compose
+### Option B – Docker
 
 From the repo root:
 
