@@ -4,9 +4,9 @@
 #   - $1 - true - Docker launches tests with NPM, isolated environment;
 #          false - NPM starts tests, NO isolated environment;
 #          default = false;
-#   - $2 - true - starting tests WITHOUT cached data (allows to start the service faster);
-#          false - starting the tests WITH cache (cache is cleared);
-#          default = false;
+#   - $2 - true - starting tests WITHOUT cached data (allows to start the service faster), when is_isolated = true;
+#          false - starting the tests WITH cache (cache is cleared), when is_isolated = true;
+#          default = false, when is_isolated = true;
 
 is_isolated=${1:-false}
 clear_cache=${2:-false}
