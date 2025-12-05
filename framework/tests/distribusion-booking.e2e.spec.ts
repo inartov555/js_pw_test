@@ -99,7 +99,7 @@ test('TC8-10: cannot search with missing From/To', async ({ page }) => {
   await searchPage.selectDate();
   await searchPage.searchButton.click();
   // Verification
-  let toErrMes = await searchPage.getErrTextLocator('Required field', searchPage.fromErr)
+  let toErrMes = await searchPage.getErrTextLocator('Required field', searchPage.toErr)
   await expect(toErrMes).toBeVisible();
 
   // Case: TC10: Both ‘From’ and ‘To’ blank
@@ -110,8 +110,7 @@ test('TC8-10: cannot search with missing From/To', async ({ page }) => {
   // Verification
   fromErrMes = await searchPage.getErrTextLocator('Required field', searchPage.fromErr)
   await expect(fromErrMes).toBeVisible();
-  await expect(await searchPage.toFieldRequiredErr).toBeVisible();
-  toErrMes = await searchPage.getErrTextLocator('Required field', searchPage.fromErr)
+  toErrMes = await searchPage.getErrTextLocator('Required field', searchPage.toErr)
   await expect(toErrMes).toBeVisible();
 });
 
