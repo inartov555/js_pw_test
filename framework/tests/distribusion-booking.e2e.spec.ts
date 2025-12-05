@@ -18,7 +18,7 @@ async function openBooking(page: Page) {
 /**
  * ID 1 - Successful one-way search with valid origin, destination and date
  */
-test('TC1: Successful one-way search with valid ‘From’, ‘To’ and date', async ({ page }) => {
+test('TC1: Successful one-way search with valid From, To and date', async ({ page }) => {
   const searchPage = await openBooking(page);
 
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
@@ -66,11 +66,11 @@ test('TC4: Search with multiple passengers', async ({ page }) => {
 /**
  * ID 5 - Auto-complete suggestions for 'From' field
  */
-test('TC5: Auto-complete suggestions for ‘From’ field', async ({ page }) => {
+test('TC5: Auto-complete suggestions for From field', async ({ page }) => {
   const searchPage = await openBooking(page);
   await searchPage.fromInput.fill('Paris');
-  const suggestions = searchPage.anOption
-  await expect(suggestions).toBeVisible();
+  // Verifying if there are some suggestions
+  await expect(searchPage.anOption).toBeVisible();
 });
 
 /**
@@ -112,7 +112,7 @@ test('TC8-10: cannot search with missing From/To', async ({ page }) => {
 /**
  * ID 11 - From and To are the same
  */
-test('TC11: ‘From’ and ‘To’ are the same location', async ({ page }) => {
+test('TC11: From and To are the same location', async ({ page }) => {
   const searchPage = await openBooking(page);
   await searchPage.acceptCookiesIfVisible();
   // Case: 'From' field
@@ -120,7 +120,7 @@ test('TC11: ‘From’ and ‘To’ are the same location', async ({ page }) => 
   await searchPage.fromInput.fill('Paris Beauvais Airport');
   await searchPage.selectDate(7);
   await searchPage.searchButton.click();
-  // Verifying 'To' field
+  // Verifying 'From' field
   const fromErrMes = await searchPage.getErrTextLoc('Please choose an option', searchPage.fromErr)
   await expect(fromErrMes).toBeVisible();
 
@@ -130,7 +130,7 @@ test('TC11: ‘From’ and ‘To’ are the same location', async ({ page }) => 
   await searchPage.toInput.fill('Paris Beauvais Airport');
   await searchPage.selectDate(7);
   await searchPage.searchButton.click();
-  // Verifying 'From' field
+  // Verifying 'To' field
   const toErrMes = await searchPage.getErrTextLoc('Please choose an option', searchPage.toErr)
   await expect(toErrMes).toBeVisible();
 });
@@ -147,13 +147,14 @@ test('TC13: Search with route that has no connections', async ({ page }) => {
   await searchPage.searchButton.click();
 
   const resultsPage = new ResultsPage(page);
-  await resultsPage.waitForResults();
+  await resultsPage.waitForResults(false);
 
-  const resultCount = await resultsPage.getResultCount();
-  if (resultCount === 0) {
-    const emptyState = page.getByText(/no (results|trips) found|no connections/i);
-    await expect(emptyState.first()).toBeVisible();
-  }
+  // Verifying 'From' field
+  const fromErrMes = await searchPage.getErrTextLoc('Please choose an option', searchPage.fromErr)
+  await expect(fromErrMes).toBeVisible();
+  // Verifying 'To' field
+  const toErrMes = await searchPage.getErrTextLoc('Please choose an option', searchPage.toErr)
+  await expect(toErrMes).toBeVisible();
 });
 
 /**

@@ -48,7 +48,7 @@ npm install
 npx playwright install
 # npx playwright test -g "TC1: successful one-way search Munich Airport -> Central Station" --headed --reporter=list,html
 # npx playwright test -g "TC1: successful one-way search" --headed --reporter=list
-npx playwright test -g "TC4: search with multiple passengers" --headed --reporter=list
+npx playwright test -g "TC13: Search with route that has no connections" --headed --reporter=list
 
 #
 #

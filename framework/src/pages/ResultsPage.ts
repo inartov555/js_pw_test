@@ -14,13 +14,18 @@ export class ResultsPage extends BasePage {
     super(page);
 
     this.resultsContainer = page.locator('.journey-list__cards[data-tag="journey-list-cards"]');
-    this.resultCards = this.resultsContainer.locator('[data-tag="connection-card"]');
+    this.resultCards = this.resultsContainer.locator('div[data-tag="connection-card"]');
     this.timeFilterMorning = page.getByRole('button', { name: /morning|early/i });
     this.sortByCheapest = page.getByRole('button', { name: /cheapest|lowest price/i });
   }
 
-  async waitForResults() {
-    await expect(this.resultCards.first()).toBeVisible();
+  async waitForResults(areSearchResults: boolean = true) {
+    if (areSearchResults === true) {
+      await expect(this.resultCards.first()).toBeVisible();
+    } else {
+      const count = await this.resultCards.count();
+      expect(count).toBe(0);
+    }
   }
 
   async getResultCount(): Promise<number> {
