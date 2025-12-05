@@ -131,17 +131,3 @@ This repository is also mirrored to GitLab, where the tests can be run automatic
 - GitLab project: `https://gitlab.com/inartov555/js_pw_test`
 - Example pipeline run:  
   `https://gitlab.com/inartov555/js_pw_test/-/pipelines/2197950838/`
-
-Once the `.gitlab-ci.yml` configuration is in place, every push/merge request to `main` (or other branches you configure) will:
-
-1. Install Node dependencies for the Playwright framework.
-2. Run the Playwright tests using the official Playwright Docker image.
-3. Upload Playwright reports and artifacts as GitLab pipeline artifacts.
-
-### Optional: GitLab pipeline badge
-
-You can add a badge at the top of this README:
-
-```markdown
-[![GitLab pipeline status](https://gitlab.com/inartov555/js_pw_test/badges/main/pipeline.svg)](https://gitlab.com/inartov555/js_pw_test/-/pipelines)
-```
