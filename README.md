@@ -3,7 +3,7 @@
 End-to-end (E2E) automated tests written in TypeScript using [Playwright](https://playwright.dev/).  
 The tests target the Distribusion booking portal and live under the `framework/` directory of this repository.
 
-> Default test base URL (can be overridden via `BASE_URL`):  
+> Default test base URL:  
 > [https://book.distribusion.com/?retailerPartnerNumber=807197](https://book.distribusion.com/?retailerPartnerNumber=807197)
 
 [GitHub repo](https://github.com/inartov555/js_pw_test) • [GitLab project](https://gitlab.com/inartov555/js_pw_test) • [Example GitLab pipeline run](https://gitlab.com/inartov555/js_pw_test/-/pipelines/2197950838/)
