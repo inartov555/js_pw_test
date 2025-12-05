@@ -24,6 +24,7 @@ export class ResultsPage extends BasePage {
     if (areSearchResults === true) {
       await expect(this.resultCards.first()).toBeVisible();
     } else {
+      // Case: empty search results are expected
       const count = await this.resultCards.count();
       expect(count).toBe(0);
     }

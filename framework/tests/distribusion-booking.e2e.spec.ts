@@ -161,6 +161,9 @@ test('TC13: Search with route that has no connections', async ({ page }) => {
  * ID 16 - Results page shows carrier, time, price
  */
 test('TC16: Results page shows essential trip information', async ({ page }) => {
+  /*
+   * TODO: add checks for other elements of a result card
+   */
   const searchPage = await openBooking(page);
 
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
@@ -172,8 +175,13 @@ test('TC16: Results page shows essential trip information', async ({ page }) => 
   await resultsPage.waitForResults();
 
   const firstCard = resultsPage.resultCards.first();
-  const price = await resultsPage.getPriceLoc(firstCard).textContent;
-  await expect(price?.trim().length).toBeGreaterThan(0);
+  // throw Error(await firstCard.innerHTML())
+  const priceLoc = await resultsPage.getPriceLoc(firstCard);
+  const price = await priceLoc.textContent();
+  // const price = await resultsPage.getPriceLoc(firstCard).innerHTML;
+  // throw Error(price)
+  await expect(price?.trim().length).toBeGreaterThan(1);
+  await expect(priceLoc).toHaveText(/\d+/);
 });
 
 /**
