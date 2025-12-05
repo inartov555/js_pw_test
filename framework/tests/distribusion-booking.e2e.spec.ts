@@ -171,8 +171,9 @@ test('TC16: Results page shows essential trip information', async ({ page }) => 
   const resultsPage = new ResultsPage(page);
   await resultsPage.waitForResults();
 
-  // await expect(firstCard.getByText(/€|eur|usd|price/i)).toBeVisible();
-  // await expect(firstCard.getByText(/[0-2]\d:[0-5]\d/)).toBeVisible();
+  const firstCard = this.resultCards.first();
+  const price = await resultsPage.getPriceLoc(firstCard).textContent();
+  await expect(price?.trim().length).toBeGreaterThan(0);
 });
 
 /**

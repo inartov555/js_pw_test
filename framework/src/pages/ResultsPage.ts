@@ -7,16 +7,17 @@ import { BasePage } from './BasePage';
 export class ResultsPage extends BasePage {
   readonly resultsContainer: Locator;
   readonly resultCards: Locator;
-  readonly timeFilterMorning: Locator;
-  readonly sortByCheapest: Locator;
+  readonly sortResultsFld: Locator;
+  readonly sortVariantList: Locator;
+  readonly resultCardPrice: Locator;
 
   constructor(page: Page) {
     super(page);
 
     this.resultsContainer = page.locator('.journey-list__cards[data-tag="journey-list-cards"]');
     this.resultCards = this.resultsContainer.locator('div[data-tag="connection-card"]');
-    this.timeFilterMorning = page.getByRole('button', { name: /morning|early/i });
-    this.sortByCheapest = page.getByRole('button', { name: /cheapest|lowest price/i });
+    this.sortResultsFld = page.locator('ui-dropdown journey-list__sort-dropdown');
+    this.sortVariantList = page.locator('ui-dropdown__list-wrapper'); // a list to select other sort variant from
   }
 
   async waitForResults(areSearchResults: boolean = true) {
@@ -38,17 +39,33 @@ export class ResultsPage extends BasePage {
     await bookButtons.first().click();
   }
 
-  async applyMorningDepartureFilter() {
-    const count = await this.timeFilterMorning.count();
-    if (count > 0) {
-      await this.timeFilterMorning.first().click();
-    }
+  async applyMorningDepartureFilter(text: string) {
+    await this.getFilteringOption(text)
   }
 
-  async sortByLowestPrice() {
-    const count = await this.sortByCheapest.count();
-    if (count > 0) {
-      await this.sortByCheapest.first().click();
-    }
+  async sortByLowestPrice(text: string): Promise<Locator> {
+    await this.sortResultsFld.click();
+    return await this.getSortOption(text);
+  }
+
+  async getSortOption(text: string): Promise<Locator> {
+    const sortOption = this.sortVariantList.locator(
+      'div.ui-option__label ui-option__label--shorten',
+      { hasText: text }
+    );
+    return sortOption;
+  }
+
+  async getFilteringOption(text: string): Promise<Locator> {
+    const filteringOption = this.page.locator('label.ui-checkbox', { hasText: text }).locator('input.ui-checkbox__input');
+    return filteringOption;
+  }
+
+  /*
+   * Get price locator for passed result card item locator
+   */
+  async getPriceLoc(loc: Locator): Promise<Locator> {
+    const resultCardPrice = loc.locator('button[data-tag="footer-price-button"] .journey-card__footer-price-total span');
+    return resultCardPrice;
   }
 }

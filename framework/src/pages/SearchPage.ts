@@ -35,7 +35,7 @@ export class SearchPage extends BasePage {
     this.nextMonthDayNumbers = calendars.nth(1).locator('.tile__day');
     this.allDayNumbers = page.locator('.ui-date-picker-popup .ui-calendar__tiles button.tile:not([disabled]) .tile__day');
     // End of calendars
-    this.searchButton = page.locator('div.search-form__submit-button cell div button')
+    this.searchButton = page.locator('div.search-form__submit-button.cell div button')
     this.passengersToggle = page.locator('div.passenger-dropdown');
     this.passangPlusBtn = page.locator('span.font-icon.font-icon-plus.small').locator('..');
     // Errors
@@ -86,7 +86,7 @@ export class SearchPage extends BasePage {
    * Args:
    *    - loc (Locator): this.fromErr or this.toErr
    */
-  async getErrTextLoc(text: string, loc: Locator) {
+  async getErrTextLoc(text: string, loc: Locator): Promise<Locator> {
     const errMes = loc.locator(
       'div.ui-input-error-message[role="status"]',
       { hasText: text }
@@ -99,7 +99,7 @@ export class SearchPage extends BasePage {
    * Args:
    *    - text (string): from '1' to '10'
    */
-  async getNumOfPassangLoc(text: string) {
+  async getNumOfPassangLoc(text: string): Promise<Locator> {
     const numOfPassang = this.passengersToggle.locator(
       'div.passenger-dropdown__description',
       { hasText: text }
