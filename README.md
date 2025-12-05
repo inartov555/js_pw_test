@@ -1,4 +1,4 @@
-# js_pw_test – Playwright E2E Tests
+# js_pw_test - Playwright E2E Tests
 
 End-to-end (E2E) automated tests written in TypeScript using [Playwright](https://playwright.dev/).  
 The tests target the Distribusion booking portal and live under the `framework/` directory of this repository.
@@ -7,6 +7,44 @@ The tests target the Distribusion booking portal and live under the `framework/`
 > `https://book.distribusion.com/?retailerPartnerNumber=807197`
 
 [GitHub repo](https://github.com/inartov555/js_pw_test) • [GitLab project](https://gitlab.com/inartov555/js_pw_test) • [Example GitLab pipeline run](https://gitlab.com/inartov555/js_pw_test/-/pipelines/2197950838/)
+
+---
+
+## Running the tests
+
+### Option A – Local runs (NO Docker)
+
+```bash
+cd framework
+npm install
+npx playwright install
+npx playwright test --trace on --headed --reporter=list,html
+```
+
+---
+
+### Option B – Docker + docker compose
+
+The `framework/Dockerfile` is based on the official Playwright image  
+and is wired up via `framework/docker-compose.yml`.
+
+From the repo root:
+
+```bash
+cd framework
+
+# Run tests using docker compose (reusing build cache)
+./run_tests.sh
+
+# Run tests with a clean image build (no cache)
+./run_tests.sh true
+```
+
+You can also inspect or tweak `docker-compose.yml` to adjust:
+
+- Mounted volumes (artifacts, X11 socket, etc.)
+- Ports (default maps `8000:8000`)
+- Environment variables
 
 ---
 
@@ -38,7 +76,7 @@ js_pw_test/
 └─ testStrategy/      # Folder for test strategy / documentation (if used)
 ```
 
-The **actual Playwright project** (config, tests, Dockerfile, etc.) is fully contained in the `framework/` directory.
+The actual Playwright project (config, tests, Dockerfile, etc.) is fully contained in the `framework/` directory.
 
 ---
 
@@ -49,90 +87,6 @@ The **actual Playwright project** (config, tests, Dockerfile, etc.) is fully con
 - Node.js (LTS recommended, e.g. 18+)
 - npm
 - (Optional) Docker & docker compose – if you want to run tests via containers instead of locally.
-
-### 2. Install dependencies (local Node environment)
-
-From the repo root:
-
-```bash
-cd framework
-npm install
-```
-
-This installs all dev dependencies defined in `framework/package.json`.
-
-### 3. Install Playwright browsers (first run only)
-
-If you are **not** using the Playwright Docker image locally:
-
-```bash
-cd framework
-npx playwright install --with-deps
-```
-
-This downloads the required browser binaries (Chromium, etc.).
-
----
-
-## Running the tests
-
-### Option A – Local runs (without Docker)
-
-From the repo root:
-
-```bash
-cd framework
-
-# Run the full Playwright test suite in headless mode
-npm test
-
-# Run tests with UI mode
-npm run test:ui
-
-# Run tests with a visible browser (headed)
-npm run test:headed
-```
-
-> These scripts are defined in `framework/package.json` and use the shared `playwright.config.ts`.
-
-If you want to target a different base URL:
-
-```bash
-cd framework
-export BASE_URL="https://your.custom.host/"
-npm test
-```
-
----
-
-### Option B – Docker + docker compose
-
-The `framework/Dockerfile` is based on the official Playwright image  
-and is wired up via `framework/docker-compose.yml`.
-
-From the repo root:
-
-```bash
-cd framework
-
-# Run tests using docker compose (reusing build cache)
-./run_tests.sh
-
-# Run tests with a clean image build (no cache)
-./run_tests.sh true
-```
-
-Behind the scenes this will:
-
-1. Prepare a host workspace and artifacts directory under your home folder.
-2. Build the `js_pw_test` service image.
-3. Run Playwright tests inside the container (`npx playwright test ...`).
-
-You can also inspect or tweak `docker-compose.yml` to adjust:
-
-- Mounted volumes (artifacts, X11 socket, etc.)
-- Ports (default maps `8000:8000`)
-- Environment variables
 
 ---
 
@@ -185,16 +139,3 @@ You can add a badge at the top of this README:
 ```markdown
 [![GitLab pipeline status](https://gitlab.com/inartov555/js_pw_test/badges/main/pipeline.svg)](https://gitlab.com/inartov555/js_pw_test/-/pipelines)
 ```
-
----
-
-## Useful links
-
-- GitHub repository:  
-  https://github.com/inartov555/js_pw_test
-- GitLab project:  
-  https://gitlab.com/inartov555/js_pw_test
-- Example pipeline run:  
-  https://gitlab.com/inartov555/js_pw_test/-/pipelines/2197950838/
-- Playwright documentation:  
-  https://playwright.dev/
