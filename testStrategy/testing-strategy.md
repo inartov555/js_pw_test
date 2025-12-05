@@ -87,7 +87,7 @@ Target: ~10–20 stable, fast, and business‑critical E2E tests rather than hun
   - Keep E2E suite small; push most cases down to API/component tests
   - Use Playwright’s **tracing** and network recording to debug failures
 
-## 6. E2E vs. API vs. component – what to test where?
+## 6. E2E vs. API vs. component - what to test where?
 
 - **Component tests**:
   - All detailed validation rules (date ranges, passenger limits, error messages)
