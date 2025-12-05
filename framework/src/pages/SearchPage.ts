@@ -98,9 +98,8 @@ export class SearchPage extends BasePage {
    * Number of passangers in the input field by the Search button
    * Args:
    *    - text (string): from '1' to '10'
-   *    - loc (Locator): this.fromErr or this.toErr
    */
-  async getNumOfPassangLoc(text: string, loc: Locator) {
+  async getNumOfPassangLoc(text: string) {
     const numOfPassang = this.passengersToggle.locator(
       'div.passenger-dropdown__description',
       { hasText: text }
