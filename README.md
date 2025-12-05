@@ -12,32 +12,38 @@ The tests target the Distribusion booking portal and live under the `framework/`
 
 ## Running the tests
 
+```
+./run_tests.sh $1 $2
+
+# Input parameters:
+#   - $1 - true - Docker launches tests with NPM, isolated environment;
+#          false - NPM starts tests, NO isolated environment;
+#          default = false;
+#   - $2 - true - starting tests WITHOUT cached data (allows to start the service faster), when is_isolated = true;
+#          false - starting the tests WITH cache (cache is cleared), when is_isolated = true;
+#          default = false, when is_isolated = true;
+```
+
 ### Option A – Local runs (NO Docker)
 
 ```bash
-cd framework
-npm install
-npx playwright install
-npx playwright test --trace on --headed --reporter=list,html
+./run_tests.sh false
 ```
 
 ---
 
 ### Option B – Docker + docker compose
 
-The `framework/Dockerfile` is based on the official Playwright image  
-and is wired up via `framework/docker-compose.yml`.
-
 From the repo root:
 
 ```bash
 cd framework
 
-# Run tests using docker compose (reusing build cache)
-./run_tests.sh
+# Run tests using Docker compose (reusing build cache)
+./run_tests.sh true false
 
 # Run tests with a clean image build (no cache)
-./run_tests.sh true
+./run_tests.sh true true
 ```
 
 You can also inspect or tweak `docker-compose.yml` to adjust:
