@@ -7,6 +7,10 @@ import { BasePage } from './BasePage';
  */
 export class CheckoutPage extends BasePage {
   readonly passengerForm: Locator;
+  readonly firstName: Locator;
+  readonly lastName: Locator;
+  readonly email: Locator;
+  readonly emailConfirm: Locator;
 
   constructor(page: Page) {
     super(page);

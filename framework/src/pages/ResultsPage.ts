@@ -9,7 +9,6 @@ export class ResultsPage extends BasePage {
   readonly resultCards: Locator;
   readonly sortResultsFld: Locator;
   readonly sortVariantList: Locator;
-  readonly resultCardPrice: Locator;
 
   constructor(page: Page) {
     super(page);
