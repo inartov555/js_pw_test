@@ -14,6 +14,8 @@ export class SearchPage extends BasePage {
   readonly allDayNumbers: Locator;
   readonly searchButton: Locator;
   readonly passengersToggle: Locator;
+  readonly fromFieldRequiredErr: Locator;
+  readonly toFieldRequiredErr: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -31,6 +33,15 @@ export class SearchPage extends BasePage {
     // End of calendars
     this.searchButton = page.getByRole('button', { name: /search/i });
     this.passengersToggle = page.getByRole('button', { name: /passengers|travellers/i });
+    // Errors
+    this.fromFieldRequiredErr = page.locator(
+      'div[data-tag="departure-wrapper"] div.ui-input-error-message[role="status"]',
+      { hasText: 'Required field' }
+    );
+    this.toFieldRequiredErr = page.locator(
+      'div[data-tag="arrival-wrapper"] div.ui-input-error-message[role="status"]',
+      { hasText: 'Required field' }
+    );
   }
 
   async open() {

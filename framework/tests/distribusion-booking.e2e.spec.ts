@@ -88,12 +88,7 @@ test('TC8-10: cannot search with missing From/To', async ({ page }) => {
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.toInput);
   await searchPage.selectDate();
   await searchPage.searchButton.click();
-
-  let validation = page.getByText(/From is required|select an From/i);
-  let count = await validation.count();
-  if (count > 0) {
-    await expect(validation.first()).toBeVisible();
-  }
+  await expect(await searchPage.fromFieldRequiredErr).toBeVisible();
 
   // Case: TC9: Blank ‘To’ field validation
   await page.reload();
@@ -101,24 +96,15 @@ test('TC8-10: cannot search with missing From/To', async ({ page }) => {
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
   await searchPage.selectDate();
   await searchPage.searchButton.click();
-
-  validation = page.getByText(/To is required|select a To/i);
-  count = await validation.count();
-  if (count > 0) {
-    await expect(validation.first()).toBeVisible();
-  }
+  await expect(await searchPage.toFieldRequiredErr).toBeVisible();
 
   // Case: TC10: Both ‘From’ and ‘To’ blank
   await page.reload();
   await searchPage.acceptCookiesIfVisible();
   await searchPage.selectDate();
   await searchPage.searchButton.click();
-
-  validation = page.getByText(/From and To required|please select From and To/i);
-  count = await validation.count();
-  if (count > 0) {
-    await expect(validation.first()).toBeVisible();
-  }
+  await expect(await searchPage.fromFieldRequiredErr).toBeVisible();
+  await expect(await searchPage.toFieldRequiredErr).toBeVisible();
 });
 
 /**
