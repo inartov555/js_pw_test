@@ -1,4 +1,4 @@
-# js_pw_test - Playwright E2E Tests
+# Playwright E2E Tests
 
 End-to-end (E2E) automated tests written in TypeScript using [Playwright](https://playwright.dev/).  
 The tests target the Distribusion booking portal and live under the `framework/` directory of this repository.
