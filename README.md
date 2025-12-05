@@ -27,6 +27,8 @@ The tests target the Distribusion booking portal and live under the `framework/`
 ### Option A – Local runs (NO Docker)
 
 ```bash
+cd framework
+
 ./run_tests.sh false
 ```
 
