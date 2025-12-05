@@ -35,7 +35,7 @@ export class SearchPage extends BasePage {
     this.nextMonthDayNumbers = calendars.nth(1).locator('.tile__day');
     this.allDayNumbers = page.locator('.ui-date-picker-popup .ui-calendar__tiles button.tile:not([disabled]) .tile__day');
     // End of calendars
-    this.searchButton = page.getByRole('button', { name: /search/i });
+    this.searchButton = page.locator('div.search-form__submit-button cell div button')
     this.passengersToggle = page.locator('div.passenger-dropdown');
     this.passangPlusBtn = page.locator('span.font-icon.font-icon-plus.small').locator('..');
     // Errors

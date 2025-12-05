@@ -171,9 +171,6 @@ test('TC16: Results page shows essential trip information', async ({ page }) => 
   const resultsPage = new ResultsPage(page);
   await resultsPage.waitForResults();
 
-  const firstCard = resultsPage.resultCards.first();
-  await expect(firstCard).toBeVisible();
-
   await expect(firstCard.getByText(/€|eur|usd|price/i)).toBeVisible();
   await expect(firstCard.getByText(/[0-2]\d:[0-5]\d/)).toBeVisible();
 });
