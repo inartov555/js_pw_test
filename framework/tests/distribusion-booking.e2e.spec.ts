@@ -18,7 +18,7 @@ async function openBooking(page: Page) {
 /**
  * ID 1 - Successful one-way search with valid origin, destination and date
  */
-test('TC1: successful one-way search', async ({ page }) => {
+test('TC1: Successful one-way search with valid ‘From’, ‘To’ and date', async ({ page }) => {
   const searchPage = await openBooking(page);
 
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
@@ -35,7 +35,7 @@ test('TC1: successful one-way search', async ({ page }) => {
 /**
  * ID 4 - Search with multiple passengers
  */
-test('TC4: search with multiple passengers', async ({ page }) => {
+test('TC4: Search with multiple passengers', async ({ page }) => {
   const searchPage = await openBooking(page);
 
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
@@ -43,29 +43,24 @@ test('TC4: search with multiple passengers', async ({ page }) => {
   await searchPage.selectDate(10);
   await searchPage.searchButton.click();
 
-  const toggleCount = await searchPage.passengersToggle.count();
-  if (toggleCount > 0) {
-    await searchPage.passengersToggle.click();
-    const plusButton = page.getByRole('button', { name: /\+/ });
-    const plusCount = await plusButton.count();
-    if (plusCount > 0) {
-      await plusButton.click();
-      await plusButton.click();
-    }
-  }
+  // Changing number of passangers
+  await searchPage.passengersToggle.click();
+  await expect(searchPage.passangPlusBtn).toBeVisible();
+  // 3 passangers
+  await searchPage.passangPlusBtn.click();
+  await searchPage.passangPlusBtn.click();
 
   await searchPage.searchButton.click();
 
+  // Verifying if there are some search results
   const resultsPage = new ResultsPage(page);
   await resultsPage.waitForResults();
   const count = await resultsPage.getResultCount();
   await expect(count).toBeGreaterThan(0);
 
-  const passengerSummary = page.getByText(/3\s+(passengers?|travellers?)/i);
-  const summaryCount = await passengerSummary.count();
-  if (summaryCount > 0) {
-    await expect(passengerSummary.first()).toBeVisible();
-  }
+  // Verifying number of passangers in the input field
+  const passengerNum = await searchPage.getNumOfPassangLoc('3');
+  await expect(passengerNum).toBeVisible();
 });
 
 /**
@@ -89,7 +84,7 @@ test('TC8-10: cannot search with missing From/To', async ({ page }) => {
   await searchPage.selectDate();
   await searchPage.searchButton.click();
   // Verification
-  let fromErrMes = await searchPage.getErrTextLocator('Required field', searchPage.fromErr)
+  let fromErrMes = await searchPage.getErrTextLoc('Required field', searchPage.fromErr)
   await expect(fromErrMes).toBeVisible();
 
   // Case: TC9: Blank ‘To’ field validation
@@ -99,7 +94,7 @@ test('TC8-10: cannot search with missing From/To', async ({ page }) => {
   await searchPage.selectDate();
   await searchPage.searchButton.click();
   // Verification
-  let toErrMes = await searchPage.getErrTextLocator('Required field', searchPage.toErr)
+  let toErrMes = await searchPage.getErrTextLoc('Required field', searchPage.toErr)
   await expect(toErrMes).toBeVisible();
 
   // Case: TC10: Both ‘From’ and ‘To’ blank
@@ -108,9 +103,9 @@ test('TC8-10: cannot search with missing From/To', async ({ page }) => {
   await searchPage.selectDate();
   await searchPage.searchButton.click();
   // Verification
-  fromErrMes = await searchPage.getErrTextLocator('Required field', searchPage.fromErr)
+  fromErrMes = await searchPage.getErrTextLoc('Required field', searchPage.fromErr)
   await expect(fromErrMes).toBeVisible();
-  toErrMes = await searchPage.getErrTextLocator('Required field', searchPage.toErr)
+  toErrMes = await searchPage.getErrTextLoc('Required field', searchPage.toErr)
   await expect(toErrMes).toBeVisible();
 });
 
@@ -126,7 +121,7 @@ test('TC11: ‘From’ and ‘To’ are the same location', async ({ page }) => 
   await searchPage.selectDate(7);
   await searchPage.searchButton.click();
   // Verifying 'To' field
-  const fromErrMes = await searchPage.getErrTextLocator('Please choose an option', searchPage.fromErr)
+  const fromErrMes = await searchPage.getErrTextLoc('Please choose an option', searchPage.fromErr)
   await expect(fromErrMes).toBeVisible();
 
   // Case: 'To' field
@@ -136,7 +131,7 @@ test('TC11: ‘From’ and ‘To’ are the same location', async ({ page }) => 
   await searchPage.selectDate(7);
   await searchPage.searchButton.click();
   // Verifying 'From' field
-  const toErrMes = await searchPage.getErrTextLocator('Please choose an option', searchPage.toErr)
+  const toErrMes = await searchPage.getErrTextLoc('Please choose an option', searchPage.toErr)
   await expect(toErrMes).toBeVisible();
 });
 

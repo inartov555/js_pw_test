@@ -9,13 +9,17 @@ export class SearchPage extends BasePage {
   readonly toInput: Locator;
   readonly anOption: Locator;
   readonly departureDateInput: Locator;
+
   readonly currentMonthDayNumbers: Locator;
   readonly nextMonthDayNumbers: Locator;
   readonly allDayNumbers: Locator;
+
   readonly searchButton: Locator;
   readonly passengersToggle: Locator;
-  readonly fromFieldRequiredErr: Locator;
-  readonly toFieldRequiredErr: Locator;
+  readonly passangPlusBtn: Locator;
+
+  readonly fromErr: Locator;
+  readonly toErr: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -32,7 +36,8 @@ export class SearchPage extends BasePage {
     this.allDayNumbers = page.locator('.ui-date-picker-popup .ui-calendar__tiles button.tile:not([disabled]) .tile__day');
     // End of calendars
     this.searchButton = page.getByRole('button', { name: /search/i });
-    this.passengersToggle = page.getByRole('button', { name: /passengers|travellers/i });
+    this.passengersToggle = page.locator('div.passenger-dropdown');
+    this.passangPlusBtn = page.locator('span.font-icon.font-icon-plus.small').locator('..');
     // Errors
     this.fromErr = page.locator('div[data-tag="departure-wrapper"]');
     this.toErr = page.locator('div[data-tag="arrival-wrapper"]');
@@ -81,11 +86,25 @@ export class SearchPage extends BasePage {
    * Args:
    *    - loc (Locator): this.fromErr or this.toErr
    */
-  async getErrTextLocator(text: string, loc: Locator) {
-    const errMes = await loc.locator(
+  async getErrTextLoc(text: string, loc: Locator) {
+    const errMes = loc.locator(
       'div.ui-input-error-message[role="status"]',
       { hasText: text }
     );
     return errMes;
+  }
+
+  /*
+   * Number of passangers in the input field by the Search button
+   * Args:
+   *    - text (string): from '1' to '10'
+   *    - loc (Locator): this.fromErr or this.toErr
+   */
+  async getNumOfPassangLoc(text: string, loc: Locator) {
+    const numOfPassang = this.passengersToggle.locator(
+      'div.passenger-dropdown__description',
+      { hasText: text }
+    );
+    return numOfPassang;
   }
 }
