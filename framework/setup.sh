@@ -17,8 +17,9 @@ PROJECT_FOLDER_NAME="${REPO##*/}"
 # Consider that this folder is used in the project
 HOST_WORKSPACE="$HOME/$ARTIFACTS_ROOT_FOLDER/workspace"
 # path where artifacts will be stored
-HOST_ARTIFACTS="$HOST_WORKSPACE/artifacts"
-export HOST_ARTIFACTS="$HOST_ARTIFACTS"
+BASE_ARTIFACTS_DIR="$HOST_WORKSPACE/artifacts"
+TIMESTAMP=$(date +"%Y%m%d-%H%M%S")
+export HOST_ARTIFACTS="${BASE_ARTIFACTS_DIR}/run-${TIMESTAMP}"
 export COPIED_PROJECT_PATH="$HOST_WORKSPACE/$PROJECT_FOLDER_NAME"
 
 echo "Host workspace directory (copied project + logs, screenshots, etc.):"

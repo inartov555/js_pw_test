@@ -1,9 +1,11 @@
 import { defineConfig, devices } from '@playwright/test';
 
 const baseURL = process.env.BASE_URL || 'https://book.distribusion.com/?retailerPartnerNumber=807197';
+const artifactsDir = process.env.HOST_ARTIFACTS || 'playwright-report';
 
 export default defineConfig({
   testDir: './tests',
+  outputDir: artifactsDir,
   timeout: 60 * 1000,
   expect: {
     timeout: 10 * 1000,
@@ -12,7 +14,10 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 2 : undefined,
-  reporter: [['line'], ['html', { open: 'never' }]],
+  reporter: [
+    ['line', { outputFolder: artifactsDir }],
+    ['html', { outputFolder: artifactsDir, open: 'never' }],
+  ],
   use: {
     baseURL,
     trace: 'on-first-retry',
