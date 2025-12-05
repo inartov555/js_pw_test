@@ -74,9 +74,7 @@ test('TC4: search with multiple passengers', async ({ page }) => {
 test('TC5: Auto-complete suggestions for ‘From’ field', async ({ page }) => {
   const searchPage = await openBooking(page);
   await searchPage.fromInput.fill('Paris');
-  await searchPage.anOption.first().waitFor({ state: 'visible', timeout: 10000 });
   const suggestions = searchPage.anOption
-
   await expect(suggestions).toBeVisible();
 });
 
@@ -86,8 +84,7 @@ test('TC5: Auto-complete suggestions for ‘From’ field', async ({ page }) => 
 test('TC8-10: cannot search with missing From/To', async ({ page }) => {
   const searchPage = await openBooking(page);
 
-  // Case: blank departure (From)
-  await searchPage.fromInput.fill('');
+  // Case: TC8: Blank ‘From’ field validation
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.toInput);
   await searchPage.selectDate();
   await searchPage.searchButton.click();
@@ -98,11 +95,10 @@ test('TC8-10: cannot search with missing From/To', async ({ page }) => {
     await expect(validation.first()).toBeVisible();
   }
 
-  // Case: blank destination (To)
+  // Case: TC9: Blank ‘To’ field validation
   await page.reload();
   await searchPage.acceptCookiesIfVisible();
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
-  await searchPage.toInput.fill('');
   await searchPage.selectDate();
   await searchPage.searchButton.click();
 
@@ -112,7 +108,7 @@ test('TC8-10: cannot search with missing From/To', async ({ page }) => {
     await expect(validation.first()).toBeVisible();
   }
 
-  // Case: both blank From and To
+  // Case: TC10: Both ‘From’ and ‘To’ blank
   await page.reload();
   await searchPage.acceptCookiesIfVisible();
   await searchPage.selectDate();

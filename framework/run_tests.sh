@@ -48,7 +48,7 @@ npm install
 npx playwright install
 # npx playwright test -g "TC1: successful one-way search Munich Airport -> Central Station" --headed --reporter=list,html
 # npx playwright test -g "TC1: successful one-way search" --headed --reporter=list
-npx playwright test -g "TC5: Auto-complete suggestions for ‘From’ field" --headed --reporter=list
+npx playwright test -g "TC8-10: cannot search with missing From/To" --headed --reporter=list
 
 #
 #
