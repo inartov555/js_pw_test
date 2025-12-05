@@ -211,7 +211,7 @@ test('TC20: Modify search criteria from results page', async ({ page }) => {
 /**
  * ID 22 & 25 - Select a trip and reach passenger details; fill passenger data
  */
-test('TC22/25: select trip and fill passenger details (no payment)', async ({ page }) => {
+test('TC22/25: select trip and fill passenger details, no payment', async ({ page }) => {
   const searchPage = await openBooking(page);
 
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
@@ -224,27 +224,18 @@ test('TC22/25: select trip and fill passenger details (no payment)', async ({ pa
   await resultsPage.selectFirstResult();
 
   const checkoutPage = new CheckoutPage(page);
-  await checkoutPage.assertOnCheckout();
+  await checkoutPage.waitForLoaded();
 
-  const firstName = page.getByLabel(/first name|given name/i);
-  const lastName = page.getByLabel(/last name|surname/i);
-  const email = page.getByLabel(/email/i);
+  await checkoutPage.firstName.fill('Test');
+  await checkoutPage.lastName.fill('User');
+  await checkoutPage.email.fill('test.user@example.com');
+  await checkoutPage.emailConfirm.fill('test.user@example.com');
 
-  await firstName.fill('Test');
-  await lastName.fill('User');
-  await email.fill('test.user@example.com');
-
-  const termsCheckbox = page.getByRole('checkbox', { name: /terms|conditions|privacy/i });
-  const termCount = await termsCheckbox.count();
-  if (termCount > 0) {
-    await termsCheckbox.first().check();
-  }
-
-  const payNow = checkoutPage.payNowButton;
-  const payNowCount = await payNow.count();
-  if (payNowCount > 0) {
-    await expect(payNow.first()).toBeEnabled();
-  }
+  // Verifying if filled in fields have previously set values
+  await expect(checkoutPage.firstName).toHaveValue('Test');
+  await expect(checkoutPage.lastName).toHaveValue('User');
+  await expect(checkoutPage.email).toHaveValue('test.user@example.com');
+  await expect(checkoutPage.emailConfirm).toHaveValue('test.user@example.com');
 });
 
 /**
@@ -263,7 +254,7 @@ test('TC26: Mandatory passenger fields left blank', async ({ page }) => {
   await resultsPage.selectFirstResult();
 
   const checkoutPage = new CheckoutPage(page);
-  await checkoutPage.assertOnCheckout();
+  await checkoutPage.waitForLoaded();
 
   const payButton = page.getByRole('button', { name: /pay|book|continue|next/i });
   await payButton.click();
@@ -291,7 +282,7 @@ test('TC27: Invalid email format validation', async ({ page }) => {
   await resultsPage.selectFirstResult();
 
   const checkoutPage = new CheckoutPage(page);
-  await checkoutPage.assertOnCheckout();
+  await checkoutPage.waitForLoaded();
 
   const email = page.getByLabel(/email/i);
   await email.fill('not-an-email');

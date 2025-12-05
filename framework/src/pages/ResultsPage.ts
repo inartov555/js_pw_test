@@ -35,9 +35,7 @@ export class ResultsPage extends BasePage {
   }
 
   async selectFirstResult() {
-    const bookButtons = this.page.getByRole('button', { name: /book|select|continue/i });
-    await expect(bookButtons.first()).toBeVisible();
-    await bookButtons.first().click();
+    await this.resultCards.first().click();
   }
 
   async applyMorningDepartureFilter(text: string) {

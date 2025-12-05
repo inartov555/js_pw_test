@@ -7,30 +7,26 @@ import { BasePage } from './BasePage';
  */
 export class CheckoutPage extends BasePage {
   readonly passengerForm: Locator;
-  readonly paymentSection: Locator;
-  readonly payNowButton: Locator;
 
   constructor(page: Page) {
     super(page);
 
     this.passengerForm = page.locator('[data-testid="passenger-form"], form').first();
-    this.paymentSection = page.getByText(/payment details|payment method/i);
-    this.payNowButton = page.getByRole('button', { name: /pay now/i });
+    this.firstName = page.locator('input[data-tag="passenger-first-name"]');
+    this.lastName = page.locator('input[data-tag="passenger-last-name"]');
+    this.email = page.locator('input[data-tag="contact-email"]');
+    this.emailConfirm = page.locator('input[data-tag="contact-confirm-email"]');
   }
 
   async waitForLoaded() {
     await expect(this.passengerForm).toBeVisible();
-    await expect(this.paymentSection).toBeVisible();
+    await expect(this.firstName).toBeVisible();
+    await expect(this.lastName).toBeVisible();
+    await expect(this.email).toBeVisible();
+    await expect(this.emailConfirm).toBeVisible();
   }
 
   async assertOnCheckout() {
     await this.waitForLoaded();
-  }
-
-  async assertPayNowIsVisibleButNotClicked() {
-    const count = await this.payNowButton.count();
-    if (count > 0) {
-      await expect(this.payNowButton).toBeVisible();
-    }
   }
 }
