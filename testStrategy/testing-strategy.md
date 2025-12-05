@@ -68,6 +68,6 @@ Target: ~10–20 stable, fast, and business‑critical E2E tests rather than hun
 
 ## 5. Observations about testability
 
-- The white‑label UI is reasonably **consistent and semantically structured**, which helps accessible selectors.
-- Some flows (e.g. passenger selection and seatmap) may benefit from **additional data‑test attributes**.
-- Having a dedicated **staging environment** and a stable **test route** is key to long‑term reliable automation.
+- The white‑label UI is reasonably consistent and semantically structured, which helps accessible selectors.
+- Some flows (e.g. passenger selection and seatmap) may benefit from additional data‑test attributes.
+- Having a dedicated staging environment and a stable test route is key to long‑term reliable automation.
