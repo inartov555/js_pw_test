@@ -6,15 +6,12 @@ services:
     env_file: .env
     dns: [8.8.8.8, 1.1.1.1]
     environment:
-      HOST_ARTIFACTS: $HOST_ARTIFACTS
+      HOST_ARTIFACTS: /tests/artifacts
       DISPLAY: $DISPLAY
     ports: ["8000:8000"]
     volumes:
       - media_data:/app/media
-      - ./playwright-report:/tests/playwright-report
-      - ./test-results:/tests/test-results
-      - $HOST_ARTIFACTS:$HOST_ARTIFACTS
-      - $COPIED_PROJECT_PATH:$COPIED_PROJECT_PATH
+      - ${HOST_ARTIFACTS}:/tests/artifacts
       - /tmp/.X11-unix:/tmp/.X11-unix
     stop_signal: SIGINT
     stop_grace_period: 5s

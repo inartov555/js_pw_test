@@ -17,9 +17,10 @@ PROJECT_FOLDER_NAME="${REPO##*/}"
 # Consider that this folder is used in the project
 HOST_WORKSPACE="$HOME/$ARTIFACTS_ROOT_FOLDER/workspace"
 # path where artifacts will be stored
-BASE_ARTIFACTS_DIR="$HOST_WORKSPACE/artifacts"
-TIMESTAMP=$(date +"%Y%m%d-%H%M%S")
-export HOST_ARTIFACTS="${BASE_ARTIFACTS_DIR}/run-${TIMESTAMP}"
+HOST_ARTIFACTS="$HOST_WORKSPACE/artifacts"
+TIMESTAMP_RESULTS="run-$(date +%Y%m%d-%H%M%S)"
+
+export HOST_ARTIFACTS="$HOST_ARTIFACTS/$TIMESTAMP_RESULTS"
 export COPIED_PROJECT_PATH="$HOST_WORKSPACE/$PROJECT_FOLDER_NAME"
 
 echo "Host workspace directory (copied project + logs, screenshots, etc.):"
@@ -42,10 +43,6 @@ echo "Root env set up to: '$COPIED_PROJECT_PATH'"
 export ROOT_VENV="$COPIED_PROJECT_PATH"
 echo "Entering the '$COPIED_PROJECT_PATH' module"
 cd "$COPIED_PROJECT_PATH"
-
-echo "Creating test report folders..."
-mkdir -p test-results playwright-report
-chmod -R 777 test-results playwright-report
 
 echo "Copying .env file..."
 cp backend/.env.example backend/.env
