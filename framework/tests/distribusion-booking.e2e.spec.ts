@@ -61,7 +61,6 @@ test('TC4: search with multiple passengers', async ({ page }) => {
   const count = await resultsPage.getResultCount();
   await expect(count).toBeGreaterThan(0);
 
-  // Soft assertion: passenger summary somewhere mentions "3"
   const passengerSummary = page.getByText(/3\s+(passengers?|travellers?)/i);
   const summaryCount = await passengerSummary.count();
   if (summaryCount > 0) {
@@ -74,12 +73,9 @@ test('TC4: search with multiple passengers', async ({ page }) => {
  */
 test('TC5: Auto-complete suggestions for ‘From’ field', async ({ page }) => {
   const searchPage = await openBooking(page);
-
-  await searchPage.fromInput.fill('Mun');
-
-  const suggestions =
-    page.locator('[data-testid="origin-suggestions"]') ||
-    page.getByRole('listbox');
+  await searchPage.fromInput.fill('Paris');
+  await searchPage.anOption.first().waitFor({ state: 'visible', timeout: 10000 });
+  const suggestions = searchPage.anOption
 
   await expect(suggestions).toBeVisible();
 });
