@@ -3,7 +3,7 @@
 Assumed feature:
 
 > On the checkout page, there is a text input where the user can enter a discount code.
-> If the code is valid, a **fixed amount discount** is applied to the total price.
+> If the code is valid, a fixed amount discount is applied to the total price.
 > If invalid, an error is shown and the total remains unchanged.
 
 ## 1. High‑level acceptance criteria
@@ -15,7 +15,7 @@ Assumed feature:
 
 2. An invalid/expired code:
    - Shows a clear error message
-   - Does **not** change the price
+   - Does not change the price
 
 3. A code cannot be applied more than once per booking.
 
