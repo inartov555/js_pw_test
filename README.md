@@ -13,6 +13,8 @@ The tests target the Distribusion booking portal and live under the `framework/`
 ## Running the tests
 
 ```
+cd framework
+
 ./run_tests.sh $1 $2
 
 # Input parameters:
