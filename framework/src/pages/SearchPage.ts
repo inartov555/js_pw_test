@@ -34,14 +34,8 @@ export class SearchPage extends BasePage {
     this.searchButton = page.getByRole('button', { name: /search/i });
     this.passengersToggle = page.getByRole('button', { name: /passengers|travellers/i });
     // Errors
-    this.fromFieldRequiredErr = page.locator(
-      'div[data-tag="departure-wrapper"] div.ui-input-error-message[role="status"]',
-      { hasText: 'Required field' }
-    );
-    this.toFieldRequiredErr = page.locator(
-      'div[data-tag="arrival-wrapper"] div.ui-input-error-message[role="status"]',
-      { hasText: 'Required field' }
-    );
+    this.fromErr = page.locator('div[data-tag="departure-wrapper"]');
+    this.toErr = page.locator('div[data-tag="arrival-wrapper"]');
   }
 
   async open() {
@@ -81,5 +75,17 @@ export class SearchPage extends BasePage {
   async selectFirstAvailableOptionDepDest(text: string) {
     await this.anOption.first().waitFor({ state: 'visible', timeout: 10000 });
     await this.anOption.getByText(text, { exact: false }).click();
+  }
+
+  /*
+   * Args:
+   *    - loc (Locator): this.fromErr or this.toErr
+   */
+  async getErrTextLocator(text: string, loc: Locator) {
+    const errMes = await loc.locator(
+      'div.ui-input-error-message[role="status"]',
+      { hasText: text }
+    );
+    return errMes;
   }
 }

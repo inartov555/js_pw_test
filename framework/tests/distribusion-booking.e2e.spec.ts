@@ -16,7 +16,7 @@ async function openBooking(page: Page) {
 }
 
 /**
- * ID 1 – Successful one-way search with valid origin, destination and date
+ * ID 1 - Successful one-way search with valid origin, destination and date
  */
 test('TC1: successful one-way search', async ({ page }) => {
   const searchPage = await openBooking(page);
@@ -33,7 +33,7 @@ test('TC1: successful one-way search', async ({ page }) => {
 });
 
 /**
- * ID 4 – Search with multiple passengers
+ * ID 4 - Search with multiple passengers
  */
 test('TC4: search with multiple passengers', async ({ page }) => {
   const searchPage = await openBooking(page);
@@ -69,7 +69,7 @@ test('TC4: search with multiple passengers', async ({ page }) => {
 });
 
 /**
- * ID 5 – Auto-complete suggestions for 'From' field
+ * ID 5 - Auto-complete suggestions for 'From' field
  */
 test('TC5: Auto-complete suggestions for ‘From’ field', async ({ page }) => {
   const searchPage = await openBooking(page);
@@ -79,7 +79,7 @@ test('TC5: Auto-complete suggestions for ‘From’ field', async ({ page }) => 
 });
 
 /**
- * ID 8/9/10 – Blank From/To validations
+ * ID 8/9/10 - Blank From/To validations
  */
 test('TC8-10: cannot search with missing From/To', async ({ page }) => {
   const searchPage = await openBooking(page);
@@ -88,7 +88,9 @@ test('TC8-10: cannot search with missing From/To', async ({ page }) => {
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.toInput);
   await searchPage.selectDate();
   await searchPage.searchButton.click();
-  await expect(await searchPage.fromFieldRequiredErr).toBeVisible();
+  // Verification
+  let fromErrMes = await searchPage.getErrTextLocator('Required field', searchPage.fromErr)
+  await expect(fromErrMes).toBeVisible();
 
   // Case: TC9: Blank ‘To’ field validation
   await page.reload();
@@ -96,39 +98,42 @@ test('TC8-10: cannot search with missing From/To', async ({ page }) => {
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
   await searchPage.selectDate();
   await searchPage.searchButton.click();
-  await expect(await searchPage.toFieldRequiredErr).toBeVisible();
+  // Verification
+  let toErrMes = await searchPage.getErrTextLocator('Required field', searchPage.fromErr)
+  await expect(toErrMes).toBeVisible();
 
   // Case: TC10: Both ‘From’ and ‘To’ blank
   await page.reload();
   await searchPage.acceptCookiesIfVisible();
   await searchPage.selectDate();
   await searchPage.searchButton.click();
-  await expect(await searchPage.fromFieldRequiredErr).toBeVisible();
+  // Verification
+  fromErrMes = await searchPage.getErrTextLocator('Required field', searchPage.fromErr)
+  await expect(fromErrMes).toBeVisible();
   await expect(await searchPage.toFieldRequiredErr).toBeVisible();
+  toErrMes = await searchPage.getErrTextLocator('Required field', searchPage.fromErr)
+  await expect(toErrMes).toBeVisible();
 });
 
 /**
- * ID 11 – From and To are the same
+ * ID 11 - From and To are the same
  */
-test('TC11: same From and To shows validation', async ({ page }) => {
+test('TC11: ‘From’ and ‘To’ are the same location', async ({ page }) => {
   const searchPage = await openBooking(page);
 
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.toInput);
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
   await searchPage.selectDate(7);
   await searchPage.searchButton.click();
-
-  const validation = page.getByText(/From and To cannot be the same|different locations/i);
-  const count = await validation.count();
-  if (count > 0) {
-    await expect(validation.first()).toBeVisible();
-  }
+  // Verification
+  const toErrMes = await searchPage.getErrTextLocator('Please choose an option', searchPage.toErr)
+  await expect(toErrMes).toBeVisible();
 });
 
 /**
- * ID 13 – Search with route that has no connections
+ * ID 13 - Search with route that has no connections
  */
-test('TC13: no connections route shows friendly message', async ({ page }) => {
+test('TC13: Search with route that has no connections', async ({ page }) => {
   const searchPage = await openBooking(page);
 
   await searchPage.fromInput.fill('Nowhere City');
@@ -147,7 +152,7 @@ test('TC13: no connections route shows friendly message', async ({ page }) => {
 });
 
 /**
- * ID 16 – Results page shows carrier, time, price
+ * ID 16 - Results page shows carrier, time, price
  */
 test('TC16: Results page shows essential trip information', async ({ page }) => {
   const searchPage = await openBooking(page);
@@ -168,7 +173,7 @@ test('TC16: Results page shows essential trip information', async ({ page }) => 
 });
 
 /**
- * ID 20 – Modify search from results page
+ * ID 20 - Modify search from results page
  */
 test('TC20: Modify search criteria from results page', async ({ page }) => {
   const searchPage = await openBooking(page);
@@ -197,7 +202,7 @@ test('TC20: Modify search criteria from results page', async ({ page }) => {
 });
 
 /**
- * ID 22 & 25 – Select a trip and reach passenger details; fill passenger data
+ * ID 22 & 25 - Select a trip and reach passenger details; fill passenger data
  */
 test('TC22/25: select trip and fill passenger details (no payment)', async ({ page }) => {
   const searchPage = await openBooking(page);
@@ -236,7 +241,7 @@ test('TC22/25: select trip and fill passenger details (no payment)', async ({ pa
 });
 
 /**
- * ID 26 – Mandatory passenger fields left blank
+ * ID 26 - Mandatory passenger fields left blank
  */
 test('TC26: Mandatory passenger fields left blank', async ({ page }) => {
   const searchPage = await openBooking(page);
@@ -264,7 +269,7 @@ test('TC26: Mandatory passenger fields left blank', async ({ page }) => {
 });
 
 /**
- * ID 27 – Invalid email format validation
+ * ID 27 - Invalid email format validation
  */
 test('TC27: Invalid email format validation', async ({ page }) => {
   const searchPage = await openBooking(page);
@@ -295,7 +300,7 @@ test('TC27: Invalid email format validation', async ({ page }) => {
 });
 
 /**
- * ID 35 – Initial page load and layout on desktop
+ * ID 35 - Initial page load and layout on desktop
  */
 test('TC35: Initial page load and layout on desktop', async ({ page }) => {
   await page.goto(BOOKING_URL);
