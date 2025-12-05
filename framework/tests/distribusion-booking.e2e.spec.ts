@@ -175,11 +175,9 @@ test('TC16: Results page shows essential trip information', async ({ page }) => 
   await resultsPage.waitForResults();
 
   const firstCard = resultsPage.resultCards.first();
-  // throw Error(await firstCard.innerHTML())
   const priceLoc = await resultsPage.getPriceLoc(firstCard);
   const price = await priceLoc.textContent();
-  // const price = await resultsPage.getPriceLoc(firstCard).innerHTML;
-  // throw Error(price)
+  // Verifying Price
   await expect(price?.trim().length).toBeGreaterThan(1);
   await expect(priceLoc).toHaveText(/\d+/);
 });
@@ -198,17 +196,14 @@ test('TC20: Modify search criteria from results page', async ({ page }) => {
   const resultsPage = new ResultsPage(page);
   await resultsPage.waitForResults();
 
-  const initialFirst = await resultsPage.resultCards.first().innerText();
+  const initialFirst = await resultsPage.resultCards.first().textContent();
 
-  const fromField = page.getByLabel(/from/i);
-  const toField = page.getByLabel(/to/i);
-
-  await fromField.fill('Paris La Villette');
-  await toField.fill('Paris Beauvais Airport');
-  await page.getByRole('button', { name: /search|update/i }).click();
+  await searchPage.typeToFromPoint('Paris La Villette', searchPage.fromInput);
+  await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.toInput);
+  await searchPage.searchButton.click();
 
   await resultsPage.waitForResults();
-  const newFirst = await resultsPage.resultCards.first().innerText();
+  const newFirst = await resultsPage.resultCards.first().textContent();
 
   await expect(newFirst).not.toEqual(initialFirst);
 });
