@@ -38,7 +38,7 @@ Target: ~10–20 stable, fast, and business‑critical E2E tests rather than hun
 - **Configurable base URL**
   - `BASE_URL` env var for easy switching between staging/production‑like environments
 - **CI integration**
-  - GitHub Actions / GitLab CI running tests on every push/merge
+  - GitHub Actions + GitLab CI running tests on every push/merge
   - Artifacts: HTML report, traces, screenshots on failure
 
 ## 4. Main challenges & mitigation
@@ -61,8 +61,8 @@ Target: ~10–20 stable, fast, and business‑critical E2E tests rather than hun
 
 - **Challenge**: Real schedules, capacity limits, dynamic pricing.
 - **Mitigation**:
-  - Request a stable test route (e.g. fixed origin/destination with guaranteed availability)
-  - Use date offsets (e.g. +7 days) with known good days from product/ops
+  - Request a stable test route (e.g. fixed From/To with guaranteed availability)
+  - Use Departure date offsets (e.g. +7 days) with known good days from product/ops
   - Keep E2E suite small; push most cases down to API/component tests
   - Use Playwright’s tracing and network recording to debug failures
 
