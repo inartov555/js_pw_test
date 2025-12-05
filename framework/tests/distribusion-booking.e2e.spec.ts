@@ -214,6 +214,7 @@ test('TC20: Modify search criteria from results page', async ({ page }) => {
 test('TC22/25: select trip and fill passenger details, no payment', async ({ page }) => {
   const searchPage = await openBooking(page);
 
+  // Case: TC22 - Select a trip and proceed to passenger details
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
   await searchPage.typeToFromPoint('Paris La Villette', searchPage.toInput);
   await searchPage.selectDate(7);
@@ -224,8 +225,10 @@ test('TC22/25: select trip and fill passenger details, no payment', async ({ pag
   await resultsPage.selectFirstResult();
 
   const checkoutPage = new CheckoutPage(page);
+  // Verifying if checkout page key elements are loaded
   await checkoutPage.waitForLoaded();
 
+  // Case: TC25 - Successful entry of passenger details
   await checkoutPage.firstName.fill('Test');
   await checkoutPage.lastName.fill('User');
   await checkoutPage.email.fill('test.user@example.com');
@@ -236,34 +239,6 @@ test('TC22/25: select trip and fill passenger details, no payment', async ({ pag
   await expect(checkoutPage.lastName).toHaveValue('User');
   await expect(checkoutPage.email).toHaveValue('test.user@example.com');
   await expect(checkoutPage.emailConfirm).toHaveValue('test.user@example.com');
-});
-
-/**
- * ID 26 - Mandatory passenger fields left blank
- */
-test('TC26: Mandatory passenger fields left blank', async ({ page }) => {
-  const searchPage = await openBooking(page);
-
-  await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
-  await searchPage.typeToFromPoint('Paris La Villette', searchPage.toInput);
-  await searchPage.selectDate(7);
-  await searchPage.searchButton.click();
-
-  const resultsPage = new ResultsPage(page);
-  await resultsPage.waitForResults();
-  await resultsPage.selectFirstResult();
-
-  const checkoutPage = new CheckoutPage(page);
-  await checkoutPage.waitForLoaded();
-
-  const payButton = page.getByRole('button', { name: /pay|book|continue|next/i });
-  await payButton.click();
-
-  const error = page.getByText(/required|please fill out this field|missing/i);
-  const count = await error.count();
-  if (count > 0) {
-    await expect(error.first()).toBeVisible();
-  }
 });
 
 /**

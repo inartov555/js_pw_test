@@ -48,7 +48,7 @@ npm install
 npx playwright install
 # npx playwright test -g "TC1: successful one-way search Munich Airport -> Central Station" --headed --reporter=list,html
 # npx playwright test -g "TC1: successful one-way search" --headed --reporter=list
-npx playwright test -g "TC22/25: select trip and fill passenger details, no payment" --headed --reporter=list
+npx playwright test -g "TC27: Invalid email format validation" --headed --reporter=list
 
 #
 #
