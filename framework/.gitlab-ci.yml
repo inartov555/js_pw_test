@@ -1,4 +1,3 @@
-# .gitlab-ci.yml
 image: mcr.microsoft.com/playwright:latest
 
 stages:
@@ -8,7 +7,6 @@ variables:
   NODE_ENV: test
   # Improve terminal output in CI
   PWDEBUG: "0"
-  # If you use GitLab's browser-based artifacts viewer
   PLAYWRIGHT_JUNIT_OUTPUT_NAME: "playwright-report/junit-report.xml"
 
 cache:
@@ -19,16 +17,9 @@ cache:
 playwright_tests:
   stage: test
   script:
-    # Move into the project folder (adjust if your structure changes)
     - cd framework
-
-    # Install dependencies
     - npm ci
-
-    # Install Playwright browsers and system deps (safe to run every time)
     - npx playwright install --with-deps
-
-    # Run tests (change to `npm test` or `npm run e2e` if that's what you use)
     - npx playwright test
 
   artifacts:
@@ -40,7 +31,6 @@ playwright_tests:
       junit: framework/playwright-report/junit-report.xml
     expire_in: 1 week
 
-  # Optional rules – run on every push & merge request
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     - if: '$CI_PIPELINE_SOURCE == "push"'
