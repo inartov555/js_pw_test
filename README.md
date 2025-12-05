@@ -13,6 +13,8 @@ The tests target the Distribusion booking portal and live under the `framework/`
 ## Running the tests
 
 ```
+cd framework
+
 ./run_tests.sh $1 $2
 
 # Input parameters:
@@ -27,6 +29,8 @@ The tests target the Distribusion booking portal and live under the `framework/`
 ### Option A – Local runs (NO Docker)
 
 ```bash
+cd framework
+
 ./run_tests.sh false
 ```
 
