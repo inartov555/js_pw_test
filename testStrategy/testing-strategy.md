@@ -12,22 +12,13 @@ Key business risks:
 
 ## 2. Test pyramid & layers
 
-### Unit / component level (owned by devs, but QA influences)
+### Unit / component level (usually, owned by devs, but QA can influence)
 
 - React component tests (e.g. with Jest + React Testing Library):
   - Search form behaviour (validation, date pickers, passenger selector)
   - Filters/sorting components (correct options, default state)
   - Price/calculation widgets
   - Discount code UI once implemented
-
-### API / integration tests
-
-- HTTP API tests (e.g. Playwright API, supertest, or Postman/Newman):
-  - Search endpoint – valid/invalid parameter combinations
-  - Fares/pricing endpoint – correct rounding, currency, localization
-  - Availability & seat map endpoints
-  - Discount API once added (`/discounts/validate`, `/cart/apply-discount`)
-- Contract tests between front‑end and back‑end to quickly detect schema changes
 
 ### End‑to‑End (E2E) UI tests (this project)
 
