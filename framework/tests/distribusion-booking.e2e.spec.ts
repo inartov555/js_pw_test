@@ -119,12 +119,23 @@ test('TC8-10: cannot search with missing From/To', async ({ page }) => {
  */
 test('TC11: ‘From’ and ‘To’ are the same location', async ({ page }) => {
   const searchPage = await openBooking(page);
-
+  await searchPage.acceptCookiesIfVisible();
+  // Case: 'From' field
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.toInput);
-  await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
+  await searchPage.fromInput.fill('Paris Beauvais Airport');
   await searchPage.selectDate(7);
   await searchPage.searchButton.click();
-  // Verification
+  // Verifying 'To' field
+  const fromErrMes = await searchPage.getErrTextLocator('Please choose an option', searchPage.fromErr)
+  await expect(fromErrMes).toBeVisible();
+
+  // Case: 'To' field
+  await page.reload();
+  await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
+  await searchPage.toInput.fill('Paris Beauvais Airport');
+  await searchPage.selectDate(7);
+  await searchPage.searchButton.click();
+  // Verifying 'From' field
   const toErrMes = await searchPage.getErrTextLocator('Please choose an option', searchPage.toErr)
   await expect(toErrMes).toBeVisible();
 });
