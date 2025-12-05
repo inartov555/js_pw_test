@@ -23,50 +23,6 @@ Assumed feature:
 
 5. The discount is correctly propagated to the payment provider (amount charged matches discounted total).
 
-## 2. UI / E2E tests (Playwright)
-
-Assuming selectors like:
-
-- `data-testid="discount-code-input"`
-- `data-testid="discount-apply-button"`
-- `data-testid="discount-message"`
-- `data-testid="price-total"`
-
-### Example scenarios
-
-1. **Happy path – valid code**
-
-- Navigate search → results → checkout (using existing POMs).
-- Enter a known good code, e.g. `QA_FIXED_10`.
-- Click “Apply”.
-- Assert:
-  - A success message is visible.
-  - The total decreased by exactly 10.00 EUR.
-  - The discount line item is visible.
-
-2. **Invalid code**
-
-- Enter `THIS_IS_INVALID` and apply.
-- Assert:
-  - Error message visible (“Invalid or expired code”).
-  - Total price unchanged.
-
-3. **Code applied twice in UI**
-
-- Apply `QA_FIXED_10` once.
-- Try applying it again.
-- Assert:
-  - Message like “Code already applied”.
-  - Total stays the same after the second attempt.
-
-4. **Edge cases**
-
-- Leading/trailing spaces (`"  QA_FIXED_10  "`).
-- Different casing (`"qa_fixed_10"`).
-- Form submission via Enter key instead of clicking.
-
-> These tests remain relatively cheap and fast because they re‑use the existing search → checkout happy path.
-
 ## 3. API tests
 
 Assuming API endpoints like:
