@@ -1,7 +1,9 @@
 import { defineConfig, devices } from '@playwright/test';
+import path from 'path';
 
 const baseURL = process.env.BASE_URL || 'https://book.distribusion.com/?retailerPartnerNumber=807197';
 const artifactsDir = process.env.HOST_ARTIFACTS || 'playwright-report';
+const htmlReportDir = path.join(artifactsRoot, 'playwright-report');
 
 export default defineConfig({
   testDir: './tests',
@@ -16,7 +18,7 @@ export default defineConfig({
   workers: process.env.CI ? 2 : undefined,
   reporter: [
     ['line'],
-    ['html', { open: 'never' }],
+    ['html', { outputFolder: htmlReportDir, open: 'never' }],
   ],
   use: {
     baseURL,

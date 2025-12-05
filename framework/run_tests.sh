@@ -28,11 +28,11 @@ echo "Building images..."
 case "$clear_cache" in
   true)
     echo "Cache will be cleared when starting the service"
-    # docker compose build js_pw_test --no-cache
+    docker compose build js_pw_test --no-cache
     ;;
   *)
     echo "Cache will be preserved when starting the service"
-    # docker compose build js_pw_test
+    docker compose build js_pw_test
 esac
 
 echo "Starting the tests..."
@@ -43,12 +43,12 @@ echo "Starting the tests..."
 #  -v /tmp/.X11-unix:/tmp/.X11-unix \
 #  framework-js_pw_test
 
-# docker compose run --rm js_pw_test
+docker compose run --rm js_pw_test
 
 # Running tests WITHOUT Docker
-npm install
-npx playwright install
-npx playwright test --trace on --headed --reporter=list,html
+# npm install
+# npx playwright install
+# npx playwright test --trace on --headed --reporter=list,html
 
 # npx playwright test -g "TC1: successful one-way search" --trace on --headed --reporter=list,html
 
