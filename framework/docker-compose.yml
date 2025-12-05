@@ -12,6 +12,7 @@ services:
     volumes:
       - media_data:/app/media
       - $HOST_ARTIFACTS:$HOST_ARTIFACTS
+      - $COPIED_PROJECT_PATH:$COPIED_PROJECT_PATH
       - /tmp/.X11-unix:/tmp/.X11-unix
     stop_signal: SIGINT
     stop_grace_period: 5s

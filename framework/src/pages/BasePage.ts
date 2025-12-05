@@ -18,7 +18,7 @@ export abstract class BasePage {
   async acceptCookiesIfVisible() {
     const button = this.page.locator('button[data-tag="cookies-consent-apply"]');
     try {
-      await button.first().waitFor({ state: 'visible', timeout: 5000 });
+      await button.first().waitFor({ state: 'visible', timeout: 7000 });
       await button.first().click();
     } catch {
       // No actions to be done here
