@@ -172,7 +172,7 @@ test('TC16: Results page shows essential trip information', async ({ page }) => 
   await resultsPage.waitForResults();
 
   const firstCard = resultsPage.resultCards.first();
-  const price = await resultsPage.getPriceLoc(firstCard).textContent();
+  const price = await resultsPage.getPriceLoc(firstCard).textContent;
   await expect(price?.trim().length).toBeGreaterThan(0);
 });
 
