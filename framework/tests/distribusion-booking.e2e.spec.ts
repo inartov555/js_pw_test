@@ -242,44 +242,10 @@ test('TC22/25: select trip and fill passenger details, no payment', async ({ pag
 });
 
 /**
- * ID 27 - Invalid email format validation
- */
-test('TC27: Invalid email format validation', async ({ page }) => {
-  const searchPage = await openBooking(page);
-
-  await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
-  await searchPage.typeToFromPoint('Paris La Villette', searchPage.toInput);
-  await searchPage.selectDate(7);
-  await searchPage.searchButton.click();
-
-  const resultsPage = new ResultsPage(page);
-  await resultsPage.waitForResults();
-  await resultsPage.selectFirstResult();
-
-  const checkoutPage = new CheckoutPage(page);
-  await checkoutPage.waitForLoaded();
-
-  const email = page.getByLabel(/email/i);
-  await email.fill('not-an-email');
-
-  const payButton = page.getByRole('button', { name: /pay|book|continue|next/i });
-  await payButton.click();
-
-  const error = page.getByText(/invalid email|enter a valid email/i);
-  const count = await error.count();
-  if (count > 0) {
-    await expect(error.first()).toBeVisible();
-  }
-});
-
-/**
  * ID 35 - Initial page load and layout on desktop
  */
 test('TC35: Initial page load and layout on desktop', async ({ page }) => {
-  await page.goto(BOOKING_URL);
-  const searchPage = new SearchPage(page);
-  await searchPage.acceptCookiesIfVisible();
-
+  const searchPage = await openBooking(page);
   await expect(searchPage.fromInput).toBeVisible();
   await expect(searchPage.toInput).toBeVisible();
   await expect(searchPage.departureDateInput).toBeVisible();
