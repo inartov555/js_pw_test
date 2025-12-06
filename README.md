@@ -36,8 +36,6 @@ cd framework
 ./run_tests.sh false
 ```
 
----
-
 ### Option B – Docker
 
 From the repo root:
