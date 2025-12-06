@@ -52,6 +52,9 @@ cd framework
 ./run_tests.sh true true
 ```
 
+Copied project folder, run results like logs, etc., are located in: `/home/$user_name/TEST1/workspace`. 
+Artefacts (run results, logs, etc.) are located in: `/home/$user_name/TEST1/workspace/artifact`.
+
 You can also inspect or tweak `docker-compose.yml` to adjust:
 
 - Mounted volumes (artifacts, X11 socket, etc.)
@@ -113,20 +116,6 @@ The main config lives in `framework/playwright.config.ts`. It includes:
   falling back to the Distribusion booking URL if not provided.
 - `outputDir` – controlled by `HOST_ARTIFACTS` or defaults to `playwright-report`.
 - HTML report – written under `<HOST_ARTIFACTS>/playwright-report`.
-
-Key environment variables:
-
-- **`BASE_URL`**  
-  Target application under test.  
-  Example:
-
-  ```bash
-  export BASE_URL="https://book.distribusion.com/?retailerPartnerNumber=807197"
-  ```
-
-- **`HOST_ARTIFACTS`**  
-  Directory where Playwright will write test artifacts (traces, videos, reports).  
-  In CI, we typically set this to something like `artifacts` so GitLab can collect it.
 
 ---
 
