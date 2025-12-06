@@ -1,7 +1,7 @@
 # Playwright E2E Tests
 
-End-to-end (E2E) automated tests written in TypeScript using [Playwright](https://playwright.dev/).  
-The tests target the Distribusion booking portal and live under the `framework/` directory of this repository.
+End-to-end (E2E) automated tests written in TypeScript using Playwright.  
+The tests target the Distribution booking portal and live under the `framework/` directory of this repository.
 
 > Default test base URL:  
 > [https://book.distribusion.com/?retailerPartnerNumber=807197](https://book.distribusion.com/?retailerPartnerNumber=807197)
