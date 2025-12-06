@@ -8,6 +8,8 @@ The tests target the Distribusion booking portal and live under the `framework/`
 
 [GitLab project](https://gitlab.com/inartov555/js_pw_test) • [Example GitLab pipeline run](https://gitlab.com/inartov555/js_pw_test/-/pipelines/2197950838/)
 
+Created on Dec-01-2025
+
 ---
 
 ## Running the tests
