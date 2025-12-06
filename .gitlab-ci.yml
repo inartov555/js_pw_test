@@ -1,0 +1,23 @@
+image: mcr.microsoft.com/playwright:v1.57.0-jammy
+
+stages:
+  - test
+
+variables:
+  HOST_ARTIFACTS: "artifacts"
+
+e2e-playwright:
+  stage: test
+  script:
+    - cd framework
+    - npm ci
+    - npx playwright test
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - framework/node_modules/
+  artifacts:
+    when: always
+    paths:
+      - framework/artifacts/
+    expire_in: 1 week
