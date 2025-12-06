@@ -6,7 +6,7 @@ The tests target the Distribution booking portal and live under the `framework/`
 > Default test base URL:  
 > [https://book.distribusion.com/?retailerPartnerNumber=807197](https://book.distribusion.com/?retailerPartnerNumber=807197)
 
-[GitLab project](https://gitlab.com/inartov555/js_pw_test) • [Example GitLab pipeline run](https://gitlab.com/inartov555/js_pw_test/-/pipelines/2197950838/)
+[GitLab project](https://gitlab.com/inartov555/js_pw_test) • [Example GitLab pipeline run](https://gitlab.com/inartov555/js_pw_test/-/pipelines)
 
 Created on Dec-01-2025
 
@@ -55,7 +55,7 @@ Artefacts (run results, logs, etc.) are located in: `/home/$user_name/TEST1/work
 
 You can also inspect or tweak `docker-compose.yml` to adjust:
 
-- Mounted volumes (artifacts, X11 socket, etc.)
+- Mounted volumes (artefacts, X11 socket, etc.)
 - Ports (default maps `8000:8000`)
 - Environment variables
 
@@ -85,8 +85,8 @@ js_pw_test/
 │  ├─ run_tests.sh
 │  ├─ setup.sh
 │  ├─ tests/          # Playwright test specs (*.spec.ts)
-│  └─ src/            # Optional framework / helper code
-└─ testStrategy/      # Folder for test strategy / documentation (if used)
+│  └─ src/            # Optional framework/helper code
+└─ testStrategy/      # Folder for test strategy/documentation (if used)
 ```
 
 The actual Playwright project (config, tests, Dockerfile, etc.) is fully contained in the `framework/` directory.
@@ -99,7 +99,7 @@ The actual Playwright project (config, tests, Dockerfile, etc.) is fully contain
 
 - Node.js (LTS recommended, e.g. 18+)
 - npm
-- (Optional) Docker & docker compose – if you want to run tests via containers instead of locally.
+- (Optional) Docker & Docker Compose – if you want to run tests via containers instead of locally.
 
 ---
 
@@ -123,4 +123,4 @@ This repository is also mirrored to GitLab, where the tests can be run automatic
 
 - GitLab project: `https://gitlab.com/inartov555/js_pw_test`
 - Example pipeline run:  
-  `https://gitlab.com/inartov555/js_pw_test/-/pipelines/2197950838/`
+  `https://gitlab.com/inartov555/js_pw_test/-/pipelines`
