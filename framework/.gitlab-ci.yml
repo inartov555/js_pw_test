@@ -6,17 +6,16 @@ stages:
 variables:
   HOST_ARTIFACTS: "artifacts"
 
-cache:
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-    - framework/node_modules/
-
 e2e-playwright:
   stage: test
   script:
     - cd framework
     - npm ci
     - npx playwright test
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - framework/node_modules/
   artifacts:
     when: always
     paths:
