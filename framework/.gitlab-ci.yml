@@ -1,36 +1,24 @@
-image: mcr.microsoft.com/playwright:latest
+image: mcr.microsoft.com/playwright:v1.57.0-jammy
 
 stages:
   - test
 
 variables:
-  NODE_ENV: test
-  # Improve terminal output in CI
-  PWDEBUG: "0"
-  PLAYWRIGHT_JUNIT_OUTPUT_NAME: "playwright-report/junit-report.xml"
+  HOST_ARTIFACTS: "artifacts"
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
     - framework/node_modules/
 
-playwright_tests:
+e2e-playwright:
   stage: test
   script:
     - cd framework
     - npm ci
-    - npx playwright install --with-deps
     - npx playwright test
-
   artifacts:
     when: always
     paths:
-      - framework/playwright-report
-      - framework/test-results
-    reports:
-      junit: framework/playwright-report/junit-report.xml
+      - framework/artifacts/
     expire_in: 1 week
-
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-    - if: '$CI_PIPELINE_SOURCE == "push"'
