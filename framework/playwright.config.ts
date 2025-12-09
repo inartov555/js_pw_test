@@ -3,7 +3,7 @@ import path from 'path';
 
 const baseURL = process.env.BASE_URL || 'https://book.distribusion.com/?retailerPartnerNumber=807197';
 const artifactsDir = process.env.HOST_ARTIFACTS || 'playwright-report';
-const htmlReportDir = path.join(artifactsDir, 'playwright-report');
+const htmlResultsDir = path.join(artifactsDir, 'test-results');
 
 export default defineConfig({
   testDir: './tests',
@@ -18,11 +18,11 @@ export default defineConfig({
   workers: process.env.CI ? 2 : undefined,
   reporter: [
     ['line'],
-    ['html', { outputFolder: htmlReportDir, open: 'never' }],
+    ['html', { outputFolder: htmlResultsDir, open: 'never' }],
   ],
   use: {
     baseURL,
-    trace: 'on-first-retry',
+    trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     viewport: { width: 1280, height: 720 },
@@ -31,18 +31,6 @@ export default defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
-    },
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
-    {
-      name: 'msedge',
-      use: { ...devices['Desktop Edge'] },
     },
   ],
 });

@@ -20,12 +20,16 @@ cd framework
 ./run_tests.sh $1 $2
 
 # Input parameters:
+#
+#     Use docker (is_isolated)
 #   - $1 - true - Docker launches tests with NPM, isolated environment;
 #          false - NPM starts tests, NO isolated environment;
 #          default = false;
-#   - $2 - true - starting tests WITHOUT cached data (allows to start the service faster), when is_isolated = true;
-#          false - starting the tests WITH cache (cache is cleared), when is_isolated = true;
-#          default = false, when is_isolated = true;
+#
+#     Only if Docker is used, clearing cache before starting service (when is_isolated = true)
+#   - $2 - true - starting tests WITHOUT cached data (allows to start the service faster);
+#          false - starting the tests WITH cache (cache is cleared);
+#          default = false;
 ```
 
 ### Option A – Local runs (NO Docker)
@@ -51,11 +55,11 @@ cd framework
 ```
 
 Copied project folder, run results like logs, etc., are located in: `/home/$user_name/TEST1/workspace`. 
-Artefacts (run results, logs, etc.) are located in: `/home/$user_name/TEST1/workspace/artifact`.
+Artifacts (run results, logs, etc.) are located in: `/home/$user_name/TEST1/workspace/artifacts`.
 
 You can also inspect or tweak `docker-compose.yml` to adjust:
 
-- Mounted volumes (artefacts, X11 socket, etc.)
+- Mounted volumes (artifacts, X11 socket, etc.)
 - Ports (default maps `8000:8000`)
 - Environment variables
 
@@ -67,7 +71,7 @@ You can also inspect or tweak `docker-compose.yml` to adjust:
 - **TypeScript**
 - **Node.js / npm**
 - **Docker** + **docker compose** (optional, for containerized runs)
-- GitLab CI for automation
+- **GitLab CI** for automation
 
 ---
 
@@ -84,9 +88,9 @@ js_pw_test/
 │  ├─ playwright.config.ts
 │  ├─ run_tests.sh
 │  ├─ setup.sh
-│  ├─ tests/          # Playwright test specs (*.spec.ts)
-│  └─ src/            # Optional framework/helper code
-└─ testStrategy/      # Folder for test strategy/documentation (if used)
+│  ├─ tests/
+│  └─ src/
+└─ testStrategy/
 ```
 
 The actual Playwright project (config, tests, Dockerfile, etc.) is fully contained in the `framework/` directory.
@@ -121,6 +125,6 @@ The main config lives in `framework/playwright.config.ts`. It includes:
 
 This repository is also mirrored to GitLab, where the tests can be run automatically in CI.
 
-- GitLab project: `https://gitlab.com/inartov555/js_pw_test`
+- GitLab project: [https://gitlab.com/inartov555/js_pw_test](https://gitlab.com/inartov555/js_pw_test)
 - Example pipeline run:  
-  `https://gitlab.com/inartov555/js_pw_test/-/pipelines`
+  [https://gitlab.com/inartov555/js_pw_test/-/pipelines](https://gitlab.com/inartov555/js_pw_test/-/pipelines)

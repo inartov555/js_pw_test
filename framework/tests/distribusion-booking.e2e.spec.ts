@@ -16,21 +16,25 @@ async function openBooking(page: Page) {
 }
 
 /**
- * ID 1 - Successful one-way search with valid origin, destination and date
+ * ID 1 - Successful one-way search with valid From, To and date
  */
-test('TC1: Successful one-way search with valid From, To and date', async ({ page }) => {
-  const searchPage = await openBooking(page);
+const input_params = [['Paris Beauvais Airport', 'Paris La Villette'], ['Paris, Saint-Denis Université', 'Paris Beauvais Airport']];
+for (const [from, to] of input_params) {
+  test(`TC1: Successful one-way search with valid From, To and date: ${from} -> ${to}`, async ({ page }) => {
+    const searchPage = await openBooking(page);
 
-  await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
-  await searchPage.typeToFromPoint('Paris La Villette', searchPage.toInput);
-  await searchPage.selectDate();
-  await searchPage.searchButton.click();
+    await searchPage.typeToFromPoint(from, searchPage.fromInput);
+    await searchPage.typeToFromPoint(to, searchPage.toInput);
+    await searchPage.selectDate();
+    await searchPage.searchButton.click();
+    throw Error("Artificial error");
 
-  const resultsPage = new ResultsPage(page);
-  await resultsPage.waitForResults();
-  const count = await resultsPage.getResultCount();
-  await expect(count).toBeGreaterThan(0);
-});
+    const resultsPage = new ResultsPage(page);
+    await resultsPage.waitForResults();
+    const count = await resultsPage.getResultCount();
+    await expect(count).toBeGreaterThan(0);
+  });
+}
 
 /**
  * ID 4 - Search with multiple passengers

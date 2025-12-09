@@ -1,15 +1,19 @@
 #!/bin/bash
 
 # Input parameters:
+#
+#     Use docker (is_isolated)
 #   - $1 - true - Docker launches tests with NPM, isolated environment;
 #          false - NPM starts tests, NO isolated environment;
 #          default = false;
-#   - $2 - true - starting tests WITHOUT cached data (allows to start the service faster), when is_isolated = true;
-#          false - starting the tests WITH cache (cache is cleared), when is_isolated = true;
-#          default = false, when is_isolated = true;
+#
+#     Only if Docker is used, clearing cache before starting service (when is_isolated = true)
+#   - $2 - true - starting tests WITHOUT cached data (allows to start the service faster);
+#          false - starting the tests WITH cache (cache is cleared);
+#          default = false;
 
-is_isolated=${1:-false}
-clear_cache=${2:-false}
+is_isolated="${1:-false}"
+clear_cache="${2:-false}"
 
 set -Eeuo pipefail
 trap cleanup EXIT ERR SIGINT SIGTERM
@@ -62,13 +66,17 @@ echo "Starting the tests..."
 
 case "$is_isolated" in
   true)
-    docker compose run --rm js_pw_test
+    echo " >>> Docker"
+    # TEST_GREP=""
+    TEST_GREP="-g 'TC1: Successful one-way search with valid From, To and date'"
+    docker compose run -e TEST_GREP="$TEST_GREP" --rm js_pw_test
     ;;
   *)
+    echo " >>> Non docker"
     # Running tests WITHOUT Docker
     npm install
     npx playwright install
-    npx playwright test --trace on --headed --reporter=list,html
+    npx playwright test -g 'TC1: Successful one-way search with valid From, To and date' --headed
     
     # npx playwright test -g "TC1: successful one-way search" --trace on --headed --reporter=list,html
 esac

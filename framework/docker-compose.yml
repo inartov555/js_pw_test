@@ -2,7 +2,6 @@ services:
 
   js_pw_test:
     build: { context: ., dockerfile: Dockerfile }
-    command: bash -lc "npx playwright test --headed"
     env_file: .env
     dns: [8.8.8.8, 1.1.1.1]
     environment:
