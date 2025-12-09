@@ -8,7 +8,6 @@ const htmlResultsDir = path.join(artifactsDir, 'test-results');
 export default defineConfig({
   testDir: './tests',
   outputDir: artifactsDir,
-  navigationTimeout: 30 * 1000,
   timeout: 60 * 1000,
   expect: {
     timeout: 10 * 1000,
@@ -27,6 +26,7 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     viewport: { width: 1280, height: 720 },
+    navigationTimeout: 30 * 1000,
   },
   projects: [
     {
