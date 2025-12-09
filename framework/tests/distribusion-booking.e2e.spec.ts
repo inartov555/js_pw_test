@@ -1,20 +1,6 @@
-
-import { test, expect, Page } from '@playwright/test';
-import { SearchPage } from '../src/pages/SearchPage';
-import { ResultsPage } from '../src/pages/ResultsPage';
-import { CheckoutPage } from '../src/pages/CheckoutPage';
+import { expect, Page } from '@playwright/test';
+import { pageInitFixture } from '../src/fixtures/pageInitialization';
 import { SearchNameFromToType } from '../src/utils/types';
-
-const BOOKING_URL =
-  process.env.BOOKING_URL ||
-  'https://book.distribusion.com/?retailerPartnerNumber=807197';
-
-async function openBooking(page: Page) {
-  await page.goto(BOOKING_URL);
-  const searchPage = new SearchPage(page);
-  await searchPage.acceptCookiesIfVisible();
-  return searchPage;
-}
 
 /**
  * ID 1 - Successful one-way search with valid From, To and date
@@ -31,19 +17,16 @@ const tc1SearchCases: SearchNameFromToType[] = [
     to: 'Paris Beauvais Airport',
   },
 ];
-test.describe.parallel('TC1: Successful one-way search with valid From, To and date', () => {
+pageInitFixture.describe.parallel('TC1: Successful one-way search with valid From, To and date', () => {
   for (const { name, from, to } of tc1SearchCases) {
-    test(name, async ({ page }) => {
-      const searchPage = await openBooking(page);
-
+    pageInitFixture(name, async ({ page, searchPage, resultsPage }) => {
       await searchPage.typeToFromPoint(from, searchPage.fromInput);
       await searchPage.typeToFromPoint(to, searchPage.toInput);
       await searchPage.selectDate();
       await searchPage.searchButton.click();
-
-      const resultsPage = new ResultsPage(page);
       await resultsPage.waitForResults();
       const count = await resultsPage.getResultCount();
+      // Verifying that there are some search results
       await expect(count).toBeGreaterThan(0);
     });
   }
@@ -52,13 +35,10 @@ test.describe.parallel('TC1: Successful one-way search with valid From, To and d
 /**
  * ID 4 - Search with multiple passengers
  */
-test('TC4: Search with multiple passengers', async ({ page }) => {
-  const searchPage = await openBooking(page);
-
+pageInitFixture('TC4: Search with multiple passengers', async ({ page, searchPage, resultsPage }) => {
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
   await searchPage.typeToFromPoint('Paris La Villette', searchPage.toInput);
   await searchPage.selectDate(10);
-  await searchPage.searchButton.click();
 
   // Changing number of passangers
   await searchPage.passengersToggle.click();
@@ -75,7 +55,6 @@ test('TC4: Search with multiple passengers', async ({ page }) => {
   await searchPage.searchButton.click();
 
   // Verifying if there are some search results
-  const resultsPage = new ResultsPage(page);
   await resultsPage.waitForResults();
   const count = await resultsPage.getResultCount();
   await expect(count).toBeGreaterThan(0);
@@ -88,8 +67,7 @@ test('TC4: Search with multiple passengers', async ({ page }) => {
 /**
  * ID 5 - Auto-complete suggestions for 'From' field
  */
-test('TC5: Auto-complete suggestions for From field', async ({ page }) => {
-  const searchPage = await openBooking(page);
+pageInitFixture('TC5: Auto-complete suggestions for From field', async ({ page, searchPage }) => {
   await searchPage.fromInput.fill('Paris');
   // Verifying if there are some suggestions
   await expect(searchPage.anOption).toBeVisible();
@@ -98,9 +76,7 @@ test('TC5: Auto-complete suggestions for From field', async ({ page }) => {
 /**
  * ID 8/9/10 - Blank From/To validations
  */
-test('TC8-10: cannot search with missing From/To', async ({ page }) => {
-  const searchPage = await openBooking(page);
-
+pageInitFixture('TC8-10: cannot search with missing From/To', async ({ page, searchPage }) => {
   // Case: TC8: Blank ‘From’ field validation
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.toInput);
   await searchPage.selectDate();
@@ -111,7 +87,6 @@ test('TC8-10: cannot search with missing From/To', async ({ page }) => {
 
   // Case: TC9: Blank ‘To’ field validation
   await page.reload();
-  await searchPage.acceptCookiesIfVisible();
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
   await searchPage.selectDate();
   await searchPage.searchButton.click();
@@ -121,7 +96,6 @@ test('TC8-10: cannot search with missing From/To', async ({ page }) => {
 
   // Case: TC10: Both ‘From’ and ‘To’ blank
   await page.reload();
-  await searchPage.acceptCookiesIfVisible();
   await searchPage.selectDate();
   await searchPage.searchButton.click();
   // Verification
@@ -134,8 +108,7 @@ test('TC8-10: cannot search with missing From/To', async ({ page }) => {
 /**
  * ID 11 - From and To are the same
  */
-test('TC11: From and To are the same location', async ({ page }) => {
-  const searchPage = await openBooking(page);
+pageInitFixture('TC11: From and To are the same location', async ({ page, searchPage }) => {
   await searchPage.acceptCookiesIfVisible();
   // Case: 'From' field
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.toInput);
@@ -160,15 +133,11 @@ test('TC11: From and To are the same location', async ({ page }) => {
 /**
  * ID 13 - Search with route that has no connections
  */
-test('TC13: Search with route that has no connections', async ({ page }) => {
-  const searchPage = await openBooking(page);
-
+pageInitFixture('TC13: Search with route that has no connections', async ({ page, searchPage, resultsPage }) => {
   await searchPage.fromInput.fill('Nowhere City');
   await searchPage.toInput.fill('Nowhere Village');
   await searchPage.selectDate();
   await searchPage.searchButton.click();
-
-  const resultsPage = new ResultsPage(page);
   await resultsPage.waitForResults(false);
 
   // Verifying 'From' field
@@ -182,20 +151,15 @@ test('TC13: Search with route that has no connections', async ({ page }) => {
 /**
  * ID 16 - Results page shows carrier, time, price
  */
-test('TC16: Results page shows essential trip information', async ({ page }) => {
+pageInitFixture('TC16: Results page shows essential trip information', async ({ page, searchPage, resultsPage }) => {
   /*
    * TODO: add checks for other elements of a result card
    */
-  const searchPage = await openBooking(page);
-
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
   await searchPage.typeToFromPoint('Paris La Villette', searchPage.toInput);
   await searchPage.selectDate(7);
   await searchPage.searchButton.click();
-
-  const resultsPage = new ResultsPage(page);
   await resultsPage.waitForResults();
-
   const firstCard = resultsPage.resultCards.first();
   const priceLoc = await resultsPage.getPriceLoc(firstCard);
   const price = await priceLoc.textContent();
@@ -207,46 +171,35 @@ test('TC16: Results page shows essential trip information', async ({ page }) => 
 /**
  * ID 20 - Modify search from results page
  */
-test('TC20: Modify search criteria from results page', async ({ page }) => {
-  const searchPage = await openBooking(page);
-
+pageInitFixture('TC20: Modify search criteria from results page', async ({ page, searchPage, resultsPage }) => {
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
   await searchPage.typeToFromPoint('Paris La Villette', searchPage.toInput);
   await searchPage.selectDate(7);
   await searchPage.searchButton.click();
-
-  const resultsPage = new ResultsPage(page);
   await resultsPage.waitForResults();
 
   const initialFirst = await resultsPage.resultCards.first().textContent();
-
   await searchPage.typeToFromPoint('Paris La Villette', searchPage.fromInput);
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.toInput);
   await searchPage.searchButton.click();
-
   await resultsPage.waitForResults();
-  const newFirst = await resultsPage.resultCards.first().textContent();
 
+  const newFirst = await resultsPage.resultCards.first().textContent();
   await expect(newFirst).not.toEqual(initialFirst);
 });
 
 /**
  * ID 22 & 25 - Select a trip and reach passenger details; fill passenger data
  */
-test('TC22/25: select trip and fill passenger details, no payment', async ({ page }) => {
-  const searchPage = await openBooking(page);
-
+pageInitFixture('TC22/25: select trip and fill passenger details, no payment', async ({ page, searchPage, resultsPage, checkoutPage }) => {
   // Case: TC22 - Select a trip and proceed to passenger details
   await searchPage.typeToFromPoint('Paris Beauvais Airport', searchPage.fromInput);
   await searchPage.typeToFromPoint('Paris La Villette', searchPage.toInput);
   await searchPage.selectDate(7);
   await searchPage.searchButton.click();
-
-  const resultsPage = new ResultsPage(page);
   await resultsPage.waitForResults();
   await resultsPage.selectFirstResult();
 
-  const checkoutPage = new CheckoutPage(page);
   // Verifying if checkout page key elements are loaded
   await checkoutPage.waitForLoaded();
 
@@ -266,8 +219,7 @@ test('TC22/25: select trip and fill passenger details, no payment', async ({ pag
 /**
  * ID 35 - Initial page load and layout on desktop
  */
-test('TC35: Initial page load and layout on desktop', async ({ page }) => {
-  const searchPage = await openBooking(page);
+pageInitFixture('TC35: Initial page load and layout on desktop', async ({ page, searchPage }) => {
   await expect(searchPage.fromInput).toBeVisible();
   await expect(searchPage.toInput).toBeVisible();
   await expect(searchPage.departureDateInput).toBeVisible();
