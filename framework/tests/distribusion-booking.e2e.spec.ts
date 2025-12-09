@@ -63,10 +63,14 @@ test('TC4: Search with multiple passengers', async ({ page }) => {
   // Changing number of passangers
   await searchPage.passengersToggle.click();
   await expect(searchPage.passangPlusBtn).toBeVisible();
+  await expect(searchPage.passangPlusBtn).toBeEnabled();
   // 3 passangers
   await searchPage.passangPlusBtn.click();
+  const passengerNum1 = searchPage.getNumOfPassangLoc('2');
+  await expect(passengerNum1).toBeVisible();
   await searchPage.passangPlusBtn.click();
-
+  const passengerNum2 = searchPage.getNumOfPassangLoc('3');
+  await expect(passengerNum2).toBeVisible();
   await searchPage.searchButton.click();
 
   // Verifying if there are some search results
@@ -76,8 +80,9 @@ test('TC4: Search with multiple passengers', async ({ page }) => {
   await expect(count).toBeGreaterThan(0);
 
   // Verifying number of passangers in the input field
-  const passengerNum = await searchPage.getNumOfPassangLoc('3');
-  await expect(passengerNum).toBeVisible();
+  const passengerNum3 = searchPage.getNumOfPassangLoc('3');
+  // await page.waitForTimeout(10000);
+  await expect(passengerNum3).toBeVisible();
 });
 
 /**

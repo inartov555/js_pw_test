@@ -26,4 +26,4 @@ RUN chown -R pwuser:pwuser /tests
 USER pwuser
 
 # Default behavior: run the tests suite (with a virtual display)
-CMD bash -lc "xvfb-run -a -s '-screen 0' npx playwright test $TEST_GREP" --headed
+CMD bash -lc "npx playwright test --headed $TEST_GREP"

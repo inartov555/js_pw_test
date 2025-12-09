@@ -99,7 +99,7 @@ export class SearchPage extends BasePage {
    * Args:
    *    - text (string): from '1' to '10'
    */
-  async getNumOfPassangLoc(text: string): Promise<Locator> {
+  getNumOfPassangLoc(text: string): Locator {
     const numOfPassang = this.passengersToggle.locator(
       'div.passenger-dropdown__description',
       { hasText: text }
