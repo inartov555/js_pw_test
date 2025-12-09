@@ -67,8 +67,10 @@ echo "Starting the tests..."
 case "$is_isolated" in
   true)
     echo " >>> Docker"
-    # TEST_GREP=""
-    TEST_GREP="-g 'TC1: Successful one-way search with valid From, To and date'"
+    TEST_GREP=""
+    # If you need to run particular test(s), then set it as shown in the line below (TEST_GREP);
+    # to run all tests, just set TEST_GREP=""
+    # TEST_GREP="-g 'TC1: Successful one-way search with valid From, To and date'"
     docker compose run -e TEST_GREP="$TEST_GREP" --rm js_pw_test
     ;;
   *)
@@ -76,7 +78,7 @@ case "$is_isolated" in
     # Running tests WITHOUT Docker
     npm install
     npx playwright install
-    npx playwright test -g 'TC1: Successful one-way search with valid From, To and date' --headed
+    npx playwright test --headed
     
     # npx playwright test -g "TC1: successful one-way search" --trace on --headed --reporter=list,html
 esac

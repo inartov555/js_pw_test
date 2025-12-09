@@ -3,6 +3,7 @@ import { test, expect, Page } from '@playwright/test';
 import { SearchPage } from '../src/pages/SearchPage';
 import { ResultsPage } from '../src/pages/ResultsPage';
 import { CheckoutPage } from '../src/pages/CheckoutPage';
+import { SearchNameFromToType } from '../src/utils/types';
 
 const BOOKING_URL =
   process.env.BOOKING_URL ||
@@ -18,23 +19,35 @@ async function openBooking(page: Page) {
 /**
  * ID 1 - Successful one-way search with valid From, To and date
  */
-const input_params = [['Paris Beauvais Airport', 'Paris La Villette'], ['Paris, Saint-Denis Université', 'Paris Beauvais Airport']];
-for (const [from, to] of input_params) {
-  test(`TC1: Successful one-way search with valid From, To and date: ${from} -> ${to}`, async ({ page }) => {
-    const searchPage = await openBooking(page);
+const tc1SearchCases: SearchNameFromToType[] = [
+  {
+    name: 'Paris Beauvais Airport -> Paris La Villette',
+    from: 'Paris Beauvais Airport',
+    to: 'Paris La Villette',
+  },
+  {
+    name: 'Paris, Saint-Denis Université -> Paris Beauvais Airport',
+    from: 'Paris, Saint-Denis Université',
+    to: 'Paris Beauvais Airport',
+  },
+];
+test.describe.parallel('TC1: Successful one-way search with valid From, To and date', () => {
+  for (const { name, from, to } of tc1SearchCases) {
+    test(name, async ({ page }) => {
+      const searchPage = await openBooking(page);
 
-    await searchPage.typeToFromPoint(from, searchPage.fromInput);
-    await searchPage.typeToFromPoint(to, searchPage.toInput);
-    await searchPage.selectDate();
-    await searchPage.searchButton.click();
-    throw Error("Artificial error");
+      await searchPage.typeToFromPoint(from, searchPage.fromInput);
+      await searchPage.typeToFromPoint(to, searchPage.toInput);
+      await searchPage.selectDate();
+      await searchPage.searchButton.click();
 
-    const resultsPage = new ResultsPage(page);
-    await resultsPage.waitForResults();
-    const count = await resultsPage.getResultCount();
-    await expect(count).toBeGreaterThan(0);
-  });
-}
+      const resultsPage = new ResultsPage(page);
+      await resultsPage.waitForResults();
+      const count = await resultsPage.getResultCount();
+      await expect(count).toBeGreaterThan(0);
+    });
+  }
+});
 
 /**
  * ID 4 - Search with multiple passengers

@@ -16,7 +16,7 @@ RUN if [ -f package-lock.json ]; then \
 COPY . .
 
 # Install Playwright browsers & system deps
-RUN npx playwright install
+RUN npx playwright install --with-deps
 
 # Ensure Xvfb is available for headed runs under a virtual display
 USER root
@@ -24,8 +24,6 @@ USER root
 # Ensure non-root user (provided by the Playwright base image) owns the workspace
 RUN chown -R pwuser:pwuser /tests
 USER pwuser
-
-# --trace on --reporter=list,html
 
 # Default behavior: run the tests suite (with a virtual display)
 CMD bash -lc "xvfb-run -a -s '-screen 0' npx playwright test $TEST_GREP" --headed
