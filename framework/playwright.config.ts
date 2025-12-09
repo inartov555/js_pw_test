@@ -14,8 +14,8 @@ export default defineConfig({
   },
   fullyParallel: true,
   forbidOnly: !!process.env.forbidOnly,
-  retries: process.env.retries || 1,
-  workers: process.env.workers || 4,
+  retries: process.env.retries ? Number(process.env.retries) : 1,
+  workers: process.env.workers ? Number(process.env.workers) : 4,
   reporter: [
     ['line'],
     ['html', { outputFolder: htmlResultsDir, open: 'never' }],
