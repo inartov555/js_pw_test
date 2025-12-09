@@ -13,9 +13,9 @@ export default defineConfig({
     timeout: 10 * 1000,
   },
   fullyParallel: true,
-  forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 2 : undefined,
+  forbidOnly: !!process.env.forbidOnly,
+  retries: process.env.retries ? 2 : 1,
+  workers: process.env.workers ? 2 : 4,
   reporter: [
     ['line'],
     ['html', { outputFolder: htmlResultsDir, open: 'never' }],
