@@ -62,11 +62,9 @@ case "$clear_cache" in
     esac
 esac
 
-echo "Starting the tests..."
-
 case "$is_isolated" in
   true)
-    # Running tests WITH Docker
+    echo "Starting tests using Docker (isolated environment)"
     TEST_GREP=''
     # If you need to run particular test(s), then set it as shown in the line below (TEST_GREP);
     # to run all tests, just set TEST_GREP=''
@@ -74,7 +72,7 @@ case "$is_isolated" in
     docker compose run -e TEST_GREP="$TEST_GREP" --rm js_pw_test
     ;;
   *)
-    # Running tests WITHOUT Docker
+    echo "Starting tests using just npx, NO isolated environment"
     npm install
     npx playwright install
     npx playwright test --headed
