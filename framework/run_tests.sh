@@ -66,15 +66,14 @@ echo "Starting the tests..."
 
 case "$is_isolated" in
   true)
-    echo " >>> Docker"
+    # Running tests WITH Docker
     TEST_GREP=''
     # If you need to run particular test(s), then set it as shown in the line below (TEST_GREP);
     # to run all tests, just set TEST_GREP=''
-    TEST_GREP="-g 'TC4: Search with multiple passengers'"
+    # TEST_GREP="-g 'TC4: Search with multiple passengers'"
     docker compose run -e TEST_GREP="$TEST_GREP" --rm js_pw_test
     ;;
   *)
-    echo " >>> Non docker"
     # Running tests WITHOUT Docker
     npm install
     npx playwright install

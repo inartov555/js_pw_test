@@ -71,6 +71,7 @@ test('TC4: Search with multiple passengers', async ({ page }) => {
   await searchPage.passangPlusBtn.click();
   const passengerNum2 = searchPage.getNumOfPassangLoc('3');
   await expect(passengerNum2).toBeVisible();
+  // Search
   await searchPage.searchButton.click();
 
   // Verifying if there are some search results
@@ -81,7 +82,6 @@ test('TC4: Search with multiple passengers', async ({ page }) => {
 
   // Verifying number of passangers in the input field
   const passengerNum3 = searchPage.getNumOfPassangLoc('3');
-  // await page.waitForTimeout(10000);
   await expect(passengerNum3).toBeVisible();
 });
 
