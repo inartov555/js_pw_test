@@ -1,4 +1,4 @@
-# Playwright E2E Tests
+## Playwright E2E Tests
 
 End-to-end (E2E) automated tests written in TypeScript using Playwright.  
 The tests target the Distribution booking portal and live under the `framework/` directory of this repository.
