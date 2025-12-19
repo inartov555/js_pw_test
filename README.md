@@ -12,6 +12,14 @@ Created on Dec-01-2025
 
 ---
 
+### Prerequisites
+
+- Node.js (LTS recommended, e.g. 18+)
+- npm
+- (Optional) Docker & Docker Compose – if you want to run tests via containers instead of locally.
+
+---
+
 ## Running the tests
 
 ```
@@ -90,30 +98,6 @@ js_pw_test/
 ```
 
 The actual Playwright project (config, tests, Dockerfile, etc.) is fully contained in the `framework/` directory.
-
----
-
-## Getting started
-
-### 1. Prerequisites
-
-- Node.js (LTS recommended, e.g. 18+)
-- npm
-- (Optional) Docker & Docker Compose – if you want to run tests via containers instead of locally.
-
----
-
-## Configuration
-
-### Playwright configuration
-
-The main config lives in `framework/playwright.config.ts`. It includes:
-
-- `testDir: "./tests"` – where tests are located.
-- `baseURL` – taken from the `BASE_URL` environment variable,  
-  falling back to the Distribusion booking URL if not provided.
-- `outputDir` – controlled by `HOST_ARTIFACTS` or defaults to `playwright-report`.
-- HTML report – written under `<HOST_ARTIFACTS>/playwright-report`.
 
 ---
 
