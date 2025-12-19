@@ -17,6 +17,8 @@ Created on Dec-01-2025
 ```
 cd framework
 
+# You can just run ./run_tests.sh, it defaults to ./run_tests.sh false false
+
 ./run_tests.sh $1 $2
 
 # Input parameters:
@@ -56,12 +58,6 @@ cd framework
 
 Copied project folder, run results like logs, etc., are located in: `/home/$user_name/TEST1/workspace`. 
 Artifacts (run results, logs, etc.) are located in: `/home/$user_name/TEST1/workspace/artifacts`.
-
-You can also inspect or tweak `docker-compose.yml` to adjust:
-
-- Mounted volumes (artifacts, X11 socket, etc.)
-- Ports (default maps `8000:8000`)
-- Environment variables
 
 ---
 
