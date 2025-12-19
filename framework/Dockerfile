@@ -1,9 +1,9 @@
 FROM mcr.microsoft.com/playwright:v1.57.0-jammy
 
+WORKDIR /tests
+
 # Copying package files first for caching
 COPY package*.json ./
-
-WORKDIR /tests
 
 # Install Node dependencies first for better caching
 RUN if [ -f package-lock.json ]; then \
@@ -18,7 +18,6 @@ COPY . .
 # Install Playwright browsers & system deps
 RUN npx playwright install --with-deps
 
-# Ensure Xvfb is available for headed runs under a virtual display
 USER root
 
 # Ensure non-root user (provided by the Playwright base image) owns the workspace

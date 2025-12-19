@@ -1,3 +1,7 @@
+## Note:
+- !!! This is just an example of the code; this framework cannot be used for testing Instagram or running multiple times !!!
+- But anyway, the tests run if the framework is started
+
 ## Playwright E2E Tests
 
 End-to-end (E2E) automated tests written in TypeScript using Playwright.  
@@ -96,5 +100,3 @@ js_pw_test/
 ```
 
 The actual Playwright project (config, tests, Dockerfile, etc.) is fully contained in the `framework/` directory.
-
----
