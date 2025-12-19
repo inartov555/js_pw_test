@@ -3,10 +3,8 @@
 End-to-end (E2E) automated tests written in TypeScript using Playwright.  
 The tests target the Distribution booking portal and live under the `framework/` directory of this repository.
 
-> Default test base URL:  
+> Default URL:  
 > [https://book.distribusion.com/?retailerPartnerNumber=807197](https://book.distribusion.com/?retailerPartnerNumber=807197)
-
-[GitLab project](https://gitlab.com/inartov555/js_pw_test) • [Example GitLab pipeline run](https://gitlab.com/inartov555/js_pw_test/-/pipelines)
 
 Created on Dec-01-2025
 
@@ -100,11 +98,3 @@ js_pw_test/
 The actual Playwright project (config, tests, Dockerfile, etc.) is fully contained in the `framework/` directory.
 
 ---
-
-## CI/CD with GitLab
-
-This repository is also mirrored to GitLab, where the tests can be run automatically in CI.
-
-- GitLab project: [https://gitlab.com/inartov555/js_pw_test](https://gitlab.com/inartov555/js_pw_test)
-- Example pipeline run:  
-  [https://gitlab.com/inartov555/js_pw_test/-/pipelines](https://gitlab.com/inartov555/js_pw_test/-/pipelines)
