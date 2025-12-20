@@ -1,5 +1,5 @@
 ## Note:
-- !!! This is just an example of the code; this framework cannot be used for testing book.distribusion.com or running multiple times !!!
+- !!! This is just an example of the code; this framework cannot be used for testing [book.distribusion.com](https://book.distribusion.com/?retailerPartnerNumber=807197) or running multiple times !!!
 - But anyway, the tests run if the framework is started
 
 ## Playwright E2E Tests
