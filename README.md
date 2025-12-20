@@ -5,7 +5,7 @@
 ## Playwright E2E Tests
 
 End-to-end (E2E) automated tests written in TypeScript using Playwright.  
-The tests target the Distribution booking portal and live under the `framework/` directory of this repository.
+The actual Playwright project (config, tests, Dockerfile, etc.) is fully contained in the `framework/` directory.
 
 > Default URL:  
 > [https://book.distribusion.com/?retailerPartnerNumber=807197](https://book.distribusion.com/?retailerPartnerNumber=807197)
@@ -77,7 +77,6 @@ Artifacts (run results, logs, etc.) are located in: `/home/$user_name/TEST1/work
 - **TypeScript**
 - **Node.js / npm**
 - **Docker** + **docker compose** (optional, for containerized runs)
-- **GitLab CI** for automation
 
 ---
 
@@ -96,7 +95,5 @@ js_pw_test/
 │  ├─ setup.sh
 │  ├─ tests/
 │  └─ src/
-└─ testStrategy/
+└─ testCases/
 ```
-
-The actual Playwright project (config, tests, Dockerfile, etc.) is fully contained in the `framework/` directory.
